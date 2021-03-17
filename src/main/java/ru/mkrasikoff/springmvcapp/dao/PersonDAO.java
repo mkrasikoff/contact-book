@@ -12,8 +12,8 @@ public class PersonDAO {
 
     {
         people = new ArrayList<>();
-        for(int i = 1; i < 10; i++) {
-            people.add(new Person(i, "Person " + i));
+        for(int i = 1; i < 3; i++) {
+            people.add(new Person(i, "Person" , "" + i, "" + i + "@gmail.com"));
         }
     }
 

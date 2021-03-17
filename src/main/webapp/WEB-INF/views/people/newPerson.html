@@ -6,7 +6,19 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/people}" th:object=""
+<form th:method="POST" th:action="@{/people/}" th:object="${person}">
+
+    <label for="name">Enter name</label>
+    <input type="text" th:field="*{name}" id="name"/>
+
+<!--    <label for="surname">Enter surname</label>-->
+<!--    <input type="text" th:field="*{surname}" id="surname"/>-->
+
+<!--    <label for="email">Enter email</label>-->
+<!--    <input type="text" th:field="*{email}" id="email"/>-->
+
+    <input type="submit" value="Add to Person to DB"/>
+</form>
 
 </body>
 </html>
