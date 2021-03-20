@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete person</title>
+</head>
+<body>
+
+<h3>Delete page</h3>
+
+<br/>
+
+<div th:each="person : ${people}">
+    <a th:href="@{/people/delete/{id}(id=${person.getId()})}" th:text="${person.getName()} + ' ' + ${person.getId()}">person</a>
+</div>
+
+</body>
+</html>

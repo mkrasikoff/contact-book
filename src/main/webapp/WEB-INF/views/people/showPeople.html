@@ -2,13 +2,21 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>People</title>
+    <title>Show people list</title>
 </head>
 <body>
+
+<h3>Current people list</h3>
+
+<br/>
 
 <div th:each="person : ${people}">
     <a th:href="@{/people/show/{id}(id=${person.getId()})}" th:text="${person.getName()} + ' ' + ${person.getId()}">person</a>
 </div>
+
+<br/>
+
+<a href="/">Get back</a>
 
 </body>
 </html>

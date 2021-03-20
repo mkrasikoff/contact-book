@@ -29,4 +29,16 @@ public class PersonDAO {
         person.setId(people.size() + 1);
         people.add(person);
     }
+
+    public void delete(int id) {
+        people.remove(id);
+    }
+
+    public void update(Person updatedPerson, int id) {
+        Person personToBeUpdated = showPerson(id);
+
+        personToBeUpdated.setName(updatedPerson.getName());
+        personToBeUpdated.setSurname(updatedPerson.getSurname());
+        personToBeUpdated.setEmail(updatedPerson.getEmail());
+    }
 }

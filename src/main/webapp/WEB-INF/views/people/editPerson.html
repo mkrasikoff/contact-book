@@ -2,15 +2,11 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>New Person</title>
+    <title>Edit person</title>
 </head>
 <body>
 
-<h3>Add person page</h3>
-
-<br/>
-
-<form th:method="POST" th:action="@{/people/}" th:object="${person}">
+<form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
 
     <label for="name">Enter name</label>
     <input type="text" th:field="*{name}" id="name"/>
@@ -27,7 +23,7 @@
 
     <br/>
 
-    <input type="submit" value="Add Person to DB"/>
+    <input type="submit" value="Edit person in DB"/>
 </form>
 
 </body>

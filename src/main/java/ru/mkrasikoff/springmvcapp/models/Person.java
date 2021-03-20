@@ -3,13 +3,13 @@ package ru.mkrasikoff.springmvcapp.models;
 public class Person {
     private int id;
     private String name;
-    private String subname;
+    private String surname;
     private String email;
 
-    public Person(int id, String name, String subname, String email) {
+    public Person(int id, String name, String surname, String email) {
         this.id = id;
         this.name = name;
-        this.subname = subname;
+        this.surname = surname;
         this.email = email;
     }
 
@@ -20,12 +20,12 @@ public class Person {
         return id;
     }
 
-    public String getSubname() {
-        return subname;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setSubname(String subname) {
-        this.subname = subname;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getEmail() {

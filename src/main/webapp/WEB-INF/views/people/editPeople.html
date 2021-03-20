@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Select person to edit</title>
+</head>
+<body>
+
+<h3>Select person to edit</h3>
+
+<br/>
+
+<div th:each="person : ${people}">
+    <a th:href="@{/people/{id}/edit(id=${person.getId()})}" th:text="${person.getName()} + ' ' + ${person.getId()}">person</a>
+</div>
+
+<br/>
+
+<a href="/">Get back</a>
+
+</body>
+</html>

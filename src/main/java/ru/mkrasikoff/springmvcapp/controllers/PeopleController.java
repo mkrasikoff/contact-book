@@ -27,7 +27,7 @@ public class PeopleController {
     }
 
     @GetMapping("/new")
-    public String newPerson(Model model) { // переработать, зачем то тут создается Model пустой, лучше это ниже делать
+    public String newPerson(Model model) {
         model.addAttribute("person", new Person());
         return "people/newPerson";
     }
@@ -35,6 +35,36 @@ public class PeopleController {
     @PostMapping
     public String createPerson(@ModelAttribute("person") Person person) {
         personDAO.save(person);
+        return "redirect:/people/show";
+    }
+
+    @GetMapping("/delete")
+    public String delete(Model model) {
+        model.addAttribute("people", personDAO.showAll());
+        return "people/deletePerson";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deletePerson(@PathVariable("id") int id) {
+        personDAO.delete(id - 1);
+        return "redirect:/people/show";
+    }
+
+    @GetMapping("/edit")
+    public String edit(Model model) {
+        model.addAttribute("people", personDAO.showAll());
+        return "people/editPeople";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String edit(Model model, @PathVariable("id") int id) {
+        model.addAttribute("person",personDAO.showPerson(id));
+        return "people/editPerson";
+    }
+
+    @PatchMapping("/{id}")
+    public String update(@ModelAttribute("person") Person person, @PathVariable("id") int id) {
+        personDAO.update(person, id);
         return "redirect:/people/show";
     }
 }
