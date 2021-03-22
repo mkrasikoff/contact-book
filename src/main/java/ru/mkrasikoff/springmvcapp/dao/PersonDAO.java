@@ -9,11 +9,12 @@ import java.util.List;
 @Component
 public class PersonDAO {
     private List<Person> people;
+    private int currentLastId;
 
     {
         people = new ArrayList<>();
         for(int i = 1; i < 3; i++) {
-            people.add(new Person(i, "Person" , "" + i, "" + i + "@gmail.com"));
+            people.add(new Person(currentLastId++, "Example" , "Person", "example@gmail.com"));
         }
     }
 
@@ -26,12 +27,12 @@ public class PersonDAO {
     }
 
     public void save(Person person) {
-        person.setId(people.size() + 1);
+        person.setId(currentLastId++);
         people.add(person);
     }
 
     public void delete(int id) {
-        people.remove(id);
+        people.removeIf(p -> p.getId() == id);
     }
 
     public void update(Person updatedPerson, int id) {

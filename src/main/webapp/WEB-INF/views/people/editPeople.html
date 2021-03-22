@@ -11,12 +11,12 @@
 <br/>
 
 <div th:each="person : ${people}">
-    <a th:href="@{/people/{id}/edit(id=${person.getId()})}" th:text="${person.getName()} + ' ' + ${person.getId()}">person</a>
+    <a th:href="@{/people/{id}/edit(id=${person.getId()})}" th:text="${person.getName()} + ' ' + ${person.getSurname()}">person</a>
 </div>
 
 <br/>
 
-<a href="/">Get back</a>
+<a href="javascript:history.back()">Get back</a>
 
 </body>
 </html>

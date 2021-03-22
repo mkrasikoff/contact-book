@@ -19,5 +19,13 @@
 
 <a href="/people/show">Show people list</a>
 
+<br/>
+
+<a th:href="@{/people/{id}/edit(id=${person.getId()})}">Edit this person</a>
+
+<br/>
+
+<a th:href="@{/people/delete/{id}(id=${person.getId()})}">Delete this person</a>
+
 </body>
 </html>
