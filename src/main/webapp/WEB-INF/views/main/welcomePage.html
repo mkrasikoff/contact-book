@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main page</title>
+</head>
+<body>
+
+<h3>Welcome to Main page!</h3>
+
+<br/>
+
+<form th:method="GET" th:action="@{/people/show}">
+    <input type="submit" value="Show people"/>
+</form>
+
+<br/>
+
+<form th:method="GET" th:action="@{/people/new}">
+    <input type="submit" value="New person"/>
+</form>
+
+<br/>
+
+<form th:method="GET" th:action="@{/people/edit}">
+    <input type="submit" value="Edit person"/>
+</form>
+
+<br/>
+
+<form th:method="GET" th:action="@{/people/delete}">
+    <input type="submit" value="Delete person"/>
+</form>
+
+</body>
+</html>

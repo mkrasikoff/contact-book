@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Show person</title>
@@ -17,15 +17,21 @@
 
 <br/>
 
-<a href="/people/show">Show people list</a>
+<form action="/people/show">
+    <button>People list</button>
+</form>
 
 <br/>
 
-<a th:href="@{/people/{id}/edit(id=${person.getId()})}">Edit this person</a>
+<form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+    <input type="submit" value="Edit"/>
+</form>
 
 <br/>
 
-<a th:href="@{/people/delete/{id}(id=${person.getId()})}">Delete this person</a>
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
 
 </body>
 </html>

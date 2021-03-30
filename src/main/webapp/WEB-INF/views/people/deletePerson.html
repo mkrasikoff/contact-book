@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Delete person</title>
@@ -10,13 +10,23 @@
 
 <br/>
 
-<div th:each="person : ${people}">
-    <a th:href="@{/people/delete/{id}(id=${person.getId()})}" th:text="${person.getName()} + ' ' + ${person.getId()}">person</a>
-</div>
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+
+    <p th:text="${person.getName()}">person</p>
+    <p th:text="${person.getSurname()}">person</p>
+    <p th:text="${person.getEmail()}">person</p>
+    <p th:text="${person.getId()}">person</p>
+    
+<br/>
+
+    <input type="submit" value="Delete person"/>
+</form>
 
 <br/>
 
-<a href="javascript:history.back()">Get back</a>
+<form action="javascript:history.back()">
+    <button>Get back</button>
+</form>
 
 </body>
 </html>

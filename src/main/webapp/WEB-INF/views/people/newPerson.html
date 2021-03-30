@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>New Person</title>
@@ -27,12 +27,14 @@
 
     <br/>
 
-    <input type="submit" value="Add Person to DB"/>
+    <input type="submit" value="Submit"/>
 </form>
 
 <br/>
 
-<a href="javascript:history.back()">Get back</a>
+<form action="javascript:history.back()">
+    <button>Get back</button>
+</form>
 
 </body>
 </html>

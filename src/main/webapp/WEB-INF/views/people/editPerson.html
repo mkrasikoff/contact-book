@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Edit person</title>
 </head>
 <body>
+
+<h3>Edit page</h3>
+
+<br/>
 
 <form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
 
@@ -28,7 +32,9 @@
 
 <br/>
 
-<a href="javascript:history.back()">Get back</a>
+<form action="javascript:history.back()">
+    <button>Get back</button>
+</form>
 
 </body>
 </html>

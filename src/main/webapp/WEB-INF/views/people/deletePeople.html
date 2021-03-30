@@ -2,16 +2,16 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Select person to edit</title>
+    <title>Select person to delete</title>
 </head>
 <body>
 
-<h3>Select person to edit</h3>
+<h3>Select person to delete</h3>
 
 <br/>
 
 <div th:each="person : ${people}">
-    <a th:href="@{/people/{id}/edit(id=${person.getId()})}" th:text="${person.getName()} + ' ' + ${person.getSurname()}">person</a>
+    <a th:href="@{/people/{id}/delete(id=${person.getId()})}" th:text="${person.getName()} + ' ' + ${person.getSurname()}">person</a>
 </div>
 
 <br/>
