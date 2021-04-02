@@ -14,17 +14,17 @@
 
     <label for="name">Enter name</label>
     <input type="text" th:field="*{name}" id="name"/>
-
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
     <br/>
 
     <label for="surname">Enter surname</label>
     <input type="text" th:field="*{surname}" id="surname"/>
-
+    <div style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname error</div>
     <br/>
 
     <label for="email">Enter email</label>
     <input type="text" th:field="*{email}" id="email"/>
-
+    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
     <br/>
 
     <input type="submit" value="Edit person in DB"/>
