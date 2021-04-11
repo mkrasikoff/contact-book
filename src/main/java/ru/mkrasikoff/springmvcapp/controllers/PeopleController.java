@@ -19,7 +19,7 @@ public class PeopleController {
 
     @GetMapping("/show")
     public String showPeople(Model model) {
-        model.addAttribute("people", personDAO.showAll());
+        model.addAttribute("people", personDAO.showPeople());
         return "people/showPeople";
     }
 
@@ -39,13 +39,13 @@ public class PeopleController {
     public String createPerson(@ModelAttribute("person") @Valid Person person,
                                BindingResult bindingResult) {
         if(bindingResult.hasErrors()) return "people/newPerson";
-        personDAO.save(person);
+        personDAO.savePerson(person);
         return "redirect:/people/show";
     }
 
     @GetMapping("/edit")
     public String editPeople(Model model) {
-        model.addAttribute("people", personDAO.showAll());
+        model.addAttribute("people", personDAO.showPeople());
         return "people/editPeople";
     }
 
@@ -60,13 +60,13 @@ public class PeopleController {
                                BindingResult bindingResult,
                                @PathVariable("id") int id) {
         if(bindingResult.hasErrors()) return "people/editPerson";
-        personDAO.update(person, id);
+        personDAO.updatePerson(person, id);
         return "redirect:/people/show";
     }
 
     @GetMapping("/delete")
     public String deletePeople(Model model) {
-        model.addAttribute("people", personDAO.showAll());
+        model.addAttribute("people", personDAO.showPeople());
         return "people/deletePeople";
     }
 
@@ -78,7 +78,7 @@ public class PeopleController {
 
     @DeleteMapping("/{id}")
     public String removePerson(@PathVariable("id") int id) {
-        personDAO.delete(id);
+        personDAO.deletePerson(id);
         return "redirect:/people/show";
     }
 }
