@@ -5,27 +5,24 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.mkrasikoff.springmvcapp.models.Person;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 @Component
 public class PersonDAO {
-    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public PersonDAO(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    private JdbcTemplate jdbcTemplate;
+
+    private String QUERY_SHOW_PEOPLE = "SELECT * FROM person";
+    private String QUERY_SHOW_PERSON = "SELECT * FROM person WHERE id = ?";
 
     public List<Person> showPeople() {
-        return jdbcTemplate.query("SELECT * FROM person", new BeanPropertyRowMapper<>(Person.class));
+        return jdbcTemplate.query(QUERY_SHOW_PEOPLE, new BeanPropertyRowMapper<>(Person.class));
     }
 
     public Person showPerson(int id) {
-        return jdbcTemplate.query("SELECT * FROM person WHERE id = ?", new BeanPropertyRowMapper<>(Person.class),
-                new Object[]{id})
+        return jdbcTemplate.query(QUERY_SHOW_PERSON, new BeanPropertyRowMapper<>(Person.class), new Object[] {id})
                 .stream().findAny().orElse(null);
     }
 
