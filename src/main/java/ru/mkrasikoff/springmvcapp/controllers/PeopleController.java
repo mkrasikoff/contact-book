@@ -7,7 +7,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.mkrasikoff.springmvcapp.dao.PersonDAO;
 import ru.mkrasikoff.springmvcapp.models.Person;
-
 import javax.validation.Valid;
 
 @Controller
@@ -50,7 +49,8 @@ public class PeopleController {
     }
 
     @GetMapping("/{id}/edit")
-    public String editPerson(Model model, @PathVariable("id") int id) {
+    public String editPerson(Model model,
+                             @PathVariable("id") int id) {
         model.addAttribute("person",personDAO.showPerson(id));
         return "people/editPerson";
     }
@@ -71,7 +71,8 @@ public class PeopleController {
     }
 
     @GetMapping("/{id}/delete")
-    public String deletePerson(Model model, @PathVariable("id") int id) {
+    public String deletePerson(Model model,
+                               @PathVariable("id") int id) {
         model.addAttribute("person",personDAO.showPerson(id));
         return "people/deletePerson";
     }
