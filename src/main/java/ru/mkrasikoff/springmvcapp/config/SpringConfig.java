@@ -1,6 +1,5 @@
 package ru.mkrasikoff.springmvcapp.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,9 +18,16 @@ import javax.sql.DataSource;
 @ComponentScan("ru.mkrasikoff.springmvcapp")
 @EnableWebMvc
 public class SpringConfig implements WebMvcConfigurer {
+
     private final ApplicationContext applicationContext;
 
-    @Autowired
+    private static final String PREFIX = "/WEB-INF/views/";
+    private static final String SUFFIX = ".html";
+    private static final String DRIVER_CLASS_NAME = "com.mysql.cj.jdbc.Driver";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/database";
+    private static final String DB_USERNAME = "admin";
+    private static final String DB_PASSWORD = "password";
+
     public SpringConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
@@ -30,8 +36,8 @@ public class SpringConfig implements WebMvcConfigurer {
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setPrefix("/WEB-INF/views/");
-        templateResolver.setSuffix(".html");
+        templateResolver.setPrefix(PREFIX);
+        templateResolver.setSuffix(SUFFIX);
         return templateResolver;
     }
 
@@ -54,10 +60,10 @@ public class SpringConfig implements WebMvcConfigurer {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/first_db");
-        dataSource.setUsername("root");
-        dataSource.setPassword("12345678");
+        dataSource.setDriverClassName(DRIVER_CLASS_NAME);
+        dataSource.setUrl(DB_URL);
+        dataSource.setUsername(DB_USERNAME);
+        dataSource.setPassword(DB_PASSWORD);
 
         return dataSource;
     }

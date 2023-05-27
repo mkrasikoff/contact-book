@@ -6,50 +6,46 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.mkrasikoff.springmvcapp.models.Person;
 import java.util.List;
-import java.util.Random;
 
 @Component
 public class PersonDAO {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
 
-    private String QUERY_SHOW_PEOPLE = "SELECT * FROM person";
-    private String QUERY_SHOW_PERSON = "SELECT * FROM person WHERE id = ?";
-    private String QUERY_SAVE_PERSON = "INSERT INTO person VALUES(?, ?, ?, ?)";
-    private String QUERY_UPDATE_PERSON = "UPDATE person SET name = ?, surname = ?, email = ? WHERE id = ?";
-    private String QUERY_DELETE_PERSON = "DELETE FROM person WHERE id = ?";
+  private static final String QUERY_SHOW_PEOPLE = "SELECT * FROM person";
+  private static final String QUERY_SHOW_PERSON = "SELECT * FROM person WHERE id = ?";
+  private static final String QUERY_SAVE_PERSON = "INSERT INTO person(name, surname, email) VALUES(?, ?, ?)";
+  private static final String QUERY_UPDATE_PERSON = "UPDATE person SET name = ?, surname = ?, email = ? WHERE id = ?";
+  private static final String QUERY_DELETE_PERSON = "DELETE FROM person WHERE id = ?";
 
-    public List<Person> showPeople() {
-        return jdbcTemplate.query(QUERY_SHOW_PEOPLE,
-                new BeanPropertyRowMapper<>(Person.class));
-    }
+  public List<Person> showPeople() {
+    return jdbcTemplate.query(QUERY_SHOW_PEOPLE, new BeanPropertyRowMapper<>(Person.class));
+  }
 
-    public Person showPerson(int id) {
-        List<Person> people = jdbcTemplate.query(QUERY_SHOW_PERSON,
-                new BeanPropertyRowMapper<>(Person.class),
-                new Object[] {id});
-        return people.stream().findAny().orElse(null);
-    }
+  public Person showPerson(int id) {
+    List<Person> people = jdbcTemplate.query(QUERY_SHOW_PERSON, new BeanPropertyRowMapper<>(Person.class), id);
 
-    public void savePerson(Person person) {
-        Random random = new Random();
-        jdbcTemplate.update(QUERY_SAVE_PERSON,
-                random.nextInt(1024),
-                person.getName(), person.getSurname(),
-                person.getEmail());
-    }
+    return people.stream().findAny().orElse(null);
+  }
 
-    public void updatePerson(Person updatedPerson, int id) {
-        jdbcTemplate.update(QUERY_UPDATE_PERSON,
-                updatedPerson.getName(),
-                updatedPerson.getSurname(),
-                updatedPerson.getEmail(),
-                id);
-    }
+  public void savePerson(Person person) {
+    String name = person.getName();
+    String surname = person.getSurname();
+    String email = person.getEmail();
 
-    public void deletePerson(int id) {
-        jdbcTemplate.update(QUERY_DELETE_PERSON,
-                id);
-    }
+    jdbcTemplate.update(QUERY_SAVE_PERSON, name, surname, email);
+  }
+
+  public void updatePerson(Person updatedPerson, int id) {
+    String name = updatedPerson.getName();
+    String surname = updatedPerson.getSurname();
+    String email = updatedPerson.getEmail();
+
+    jdbcTemplate.update(QUERY_UPDATE_PERSON, name, surname, email, id);
+  }
+
+  public void deletePerson(int id) {
+    jdbcTemplate.update(QUERY_DELETE_PERSON, id);
+  }
 }
