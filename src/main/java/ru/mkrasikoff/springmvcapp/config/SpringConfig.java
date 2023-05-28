@@ -24,7 +24,8 @@ public class SpringConfig implements WebMvcConfigurer {
     private static final String PREFIX = "/WEB-INF/views/";
     private static final String SUFFIX = ".html";
     private static final String DRIVER_CLASS_NAME = "com.mysql.cj.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/database";
+    private static final String DB_URL = "jdbc:mysql://db:3306/database";
+
     private static final String DB_USERNAME = "admin";
     private static final String DB_PASSWORD = "password";
 
