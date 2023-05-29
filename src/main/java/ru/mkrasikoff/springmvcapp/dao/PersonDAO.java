@@ -10,9 +10,20 @@ import java.util.List;
 @Component
 public class PersonDAO {
 
-  @Autowired
   private JdbcTemplate jdbcTemplate;
 
+  @Autowired
+  public PersonDAO(JdbcTemplate jdbcTemplate) {
+    this.jdbcTemplate = jdbcTemplate;
+
+    jdbcTemplate.execute(QUERY_CREATE_TABLE);
+  }
+
+  private static final String QUERY_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS person " +
+      "(id INT PRIMARY KEY AUTO_INCREMENT, " +
+      "name VARCHAR(30), " +
+      "surname VARCHAR(30), " +
+      "email VARCHAR(50))";
   private static final String QUERY_SHOW_PEOPLE = "SELECT * FROM person";
   private static final String QUERY_SHOW_PERSON = "SELECT * FROM person WHERE id = ?";
   private static final String QUERY_SAVE_PERSON = "INSERT INTO person(name, surname, email) VALUES(?, ?, ?)";
