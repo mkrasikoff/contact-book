@@ -3,35 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Show person</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-
-<h3>Show person page</h3>
-
-<br/>
-
-<p th:text="${person.getName()}">person</p>
-<p th:text="${person.getSurname()}">person</p>
-<p th:text="${person.getEmail()}">person</p>
-<p th:text="${person.getId()}">person</p>
-
-<br/>
-
-<form action="/people/show">
-    <button>People list</button>
-</form>
-
-<br/>
-
-<form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
-    <input type="submit" value="Edit"/>
-</form>
-
-<br/>
-
-<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
-    <input type="submit" value="Delete"/>
-</form>
-
+    <div class="container">
+        <h3 class="title">Show person page</h3>
+        <div class="card">
+            <p><span class="label">Name:</span> <span th:text="${person.getName()}">person</span></p>
+            <p><span class="label">Surname:</span> <span th:text="${person.getSurname()}">person</span></p>
+            <p><span class="label">Email:</span> <span th:text="${person.getEmail()}">person</span></p>
+            <p><span class="label">ID:</span> <span th:text="${person.getId()}">person</span></p>
+        </div>
+        <div class="actions">
+            <form action="/people/show">
+                <button class="btn">People list</button>
+            </form>
+            <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+                <button class="btn">Edit</button>
+            </form>
+            <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+                <button class="btn">Delete</button>
+            </form>
+        </div>
+    </div>
+    <form action="/spring-mvc-app">
+        <button>Main page</button>
+    </form>
 </body>
 </html>

@@ -3,39 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>New Person</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-
-<h3>Add person page</h3>
-
-<br/>
-
-<form th:method="POST" th:action="@{/people/}" th:object="${person}">
-
-    <label for="name">Enter name</label>
-    <input type="text" th:field="*{name}" id="name"/>
-    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
-
-    <br/>
-
-    <label for="surname">Enter surname</label>
-    <input type="text" th:field="*{surname}" id="surname"/>
-    <div style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname error</div>
-    <br/>
-
-    <label for="email">Enter email</label>
-    <input type="text" th:field="*{email}" id="email"/>
-    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
-    <br/>
-
-    <input type="submit" value="Submit"/>
-</form>
-
-<br/>
-
-<form action="javascript:history.back()">
-    <button>Get back</button>
-</form>
-
+    <h3>Add person page</h3>
+    <form th:method="POST" th:action="@{/people/}" th:object="${person}">
+        <label for="name">Enter name</label>
+        <input type="text" th:field="*{name}" id="name"/>
+        <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+        <label for="surname">Enter surname</label>
+        <input type="text" th:field="*{surname}" id="surname"/>
+        <div style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname error</div>
+        <label for="email">Enter email</label>
+        <input type="text" th:field="*{email}" id="email"/>
+        <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+        <button type="submit">Submit</button>
+    </form>
+    <form action="javascript:history.back()">
+        <button>Get back</button>
+    </form>
 </body>
 </html>

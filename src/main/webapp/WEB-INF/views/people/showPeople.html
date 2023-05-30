@@ -3,22 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Show people list</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-
-<h3>Current people list</h3>
-
-<br/>
-
-<div th:each="person : ${people}">
-    <a th:href="@{/people/show/{id}(id=${person.getId()})}" th:text="${person.getName()} + ' ' + ${person.getSurname()}">person</a>
-</div>
-
-<br/>
-
-<form action="/spring-mvc-app">
-    <button>Main page</button>
-</form>
-
+    <h3>Current people list</h3>
+    <ul>
+        <li th:each="person : ${people}">
+            <a th:href="@{/people/show/{id}(id=${person.getId()})}" th:text="${person.getName()} + ' ' + ${person.getSurname()}">person</a>
+        </li>
+    </ul>
+    <form action="/spring-mvc-app">
+        <button>Main page</button>
+    </form>
 </body>
 </html>

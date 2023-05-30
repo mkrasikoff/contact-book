@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Select person to edit</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-
-<h3>Select person to edit</h3>
-
-<br/>
-
-<div th:each="person : ${people}">
-    <a th:href="@{/people/{id}/edit(id=${person.getId()})}" th:text="${person.getName()} + ' ' + ${person.getSurname()}">person</a>
-</div>
-
-<br/>
-
-<form action="javascript:history.back()">
-    <button>Get back</button>
-</form>
-
+    <div class="container">
+        <h3 class="title">Select person to edit</h3>
+        <div class="list">
+            <div th:each="person : ${people}" class="item">
+                <a class="link" th:href="@{/people/{id}/edit(id=${person.getId()})}" th:text="${person.getName()} + ' ' + ${person.getSurname()}">person</a>
+            </div>
+        </div>
+        <form action="javascript:history.back()" class="actions">
+            <button class="btn">Get back</button>
+        </form>
+    </div>
 </body>
 </html>

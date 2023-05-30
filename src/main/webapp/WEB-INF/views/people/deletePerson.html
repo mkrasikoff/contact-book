@@ -3,30 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Delete person</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-
-<h3>Delete page</h3>
-
-<br/>
-
-<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
-
-    <p th:text="${person.getName()}">person</p>
-    <p th:text="${person.getSurname()}">person</p>
-    <p th:text="${person.getEmail()}">person</p>
-    <p th:text="${person.getId()}">person</p>
-    
-<br/>
-
-    <input type="submit" value="Delete person"/>
-</form>
-
-<br/>
-
-<form action="javascript:history.back()">
-    <button>Get back</button>
-</form>
-
+    <div class="container">
+        <h3 class="title">Delete person</h3>
+        <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}" class="info-form">
+            <div class="info">
+                <p class="info-text" th:text="${person.getName()}">person</p>
+                <p class="info-text" th:text="${person.getSurname()}">person</p>
+                <p class="info-text" th:text="${person.getEmail()}">person</p>
+                <p class="info-text" th:text="${person.getId()}">person</p>
+            </div>
+            <input type="submit" value="Delete person" class="btn danger"/>
+        </form>
+        <form action="javascript:history.back()" class="actions">
+            <button class="btn">Get back</button>
+        </form>
+    </div>
 </body>
 </html>
