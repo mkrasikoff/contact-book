@@ -6,8 +6,8 @@
     <link rel="stylesheet" th:href="@{/static/css/styles.css}">
 </head>
 <body>
-    <div class="container">
-        <h3 class="title">Edit page</h3>
+    <h3 class="title">Edit page</h3>
+    <div class="content">
         <form class="form" th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
             <label for="name" class="label">Enter name</label>
             <input type="text" th:field="*{name}" id="name" class="input"/>
@@ -18,7 +18,7 @@
             <label for="email" class="label">Enter email</label>
             <input type="text" th:field="*{email}" id="email" class="input"/>
             <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
-            <input type="submit" value="Edit person in DB" class="btn"/>
+            <button type="submit" class="btn">Edit person in DB</button>
         </form>
         <form action="javascript:history.back()" class="actions">
             <button class="btn">Get back</button>

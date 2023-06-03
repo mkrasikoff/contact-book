@@ -6,16 +6,28 @@
     <link rel="stylesheet" th:href="@{/static/css/styles.css}">
 </head>
 <body>
-    <div class="container">
-        <h3 class="title">Show person page</h3>
-        <div class="card">
-            <p><span class="label">Name:</span> <span th:text="${person.getName()}">person</span></p>
-            <p><span class="label">Surname:</span> <span th:text="${person.getSurname()}">person</span></p>
-            <p><span class="label">Email:</span> <span th:text="${person.getEmail()}">person</span></p>
-            <p><span class="label">ID:</span> <span th:text="${person.getId()}">person</span></p>
-        </div>
+<h3 class="title">Show person page</h3>
+    <div class="content">
+        <table class="card">
+            <tr>
+                <td class="label">Name:</td>
+                <td th:text="${person.getName()}">person</td>
+            </tr>
+            <tr>
+                <td class="label">Surname:</td>
+                <td th:text="${person.getSurname()}">person</td>
+            </tr>
+            <tr>
+                <td class="label">Email:</td>
+                <td th:text="${person.getEmail()}">person</td>
+            </tr>
+            <tr>
+                <td class="label">ID:</td>
+                <td th:text="${person.getId()}">person</td>
+            </tr>
+        </table>
         <div class="actions">
-            <form action="/people/show">
+            <form th:method="GET" th:action="@{/people/show}">
                 <button class="btn">People list</button>
             </form>
             <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
@@ -25,9 +37,9 @@
                 <button class="btn">Delete</button>
             </form>
         </div>
+        <form action="/spring-mvc-app">
+            <button>Main page</button>
+        </form>
     </div>
-    <form action="/spring-mvc-app">
-        <button>Main page</button>
-    </form>
 </body>
 </html>

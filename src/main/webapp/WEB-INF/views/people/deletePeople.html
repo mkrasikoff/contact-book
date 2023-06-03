@@ -6,8 +6,8 @@
     <link rel="stylesheet" th:href="@{/static/css/styles.css}">
 </head>
 <body>
-    <div class="container">
-        <h3 class="title">Select person to delete</h3>
+    <h3 class="title">Select person to delete</h3>
+    <div class="content">
         <div class="info-list">
             <div th:each="person : ${people}" class="info-item">
                 <a th:href="@{/people/{id}/delete(id=${person.getId()})}" th:text="${person.getName()} + ' ' + ${person.getSurname()}">person</a>

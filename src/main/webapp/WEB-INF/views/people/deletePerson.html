@@ -6,8 +6,8 @@
     <link rel="stylesheet" th:href="@{/static/css/styles.css}">
 </head>
 <body>
-    <div class="container">
-        <h3 class="title">Delete person</h3>
+    <h3 class="title">Delete person</h3>
+    <div class="content">
         <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}" class="info-form">
             <div class="info">
                 <p class="info-text" th:text="${person.getName()}">person</p>

@@ -7,13 +7,28 @@
 </head>
 <body>
     <h3>Current people list</h3>
-    <ul>
-        <li th:each="person : ${people}">
-            <a th:href="@{/people/show/{id}(id=${person.getId()})}" th:text="${person.getName()} + ' ' + ${person.getSurname()}">person</a>
-        </li>
-    </ul>
-    <form action="/spring-mvc-app">
-        <button>Main page</button>
-    </form>
+    <div class="content">
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="person : ${people}">
+                <td th:text="${person.getName()}">Name</td>
+                <td th:text="${person.getSurname()}">Surname</td>
+                <td>
+                    <a th:href="@{/people/show/{id}(id=${person.getId()})}">View</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <form action="/spring-mvc-app">
+            <button>Main page</button>
+        </form>
+    </div>
 </body>
 </html>

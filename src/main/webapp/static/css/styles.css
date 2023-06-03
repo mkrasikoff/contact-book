@@ -23,16 +23,16 @@ form {
     margin: 20px auto;
 }
 
-button {
+button, input[type="submit"].btn {
     background-color: #333;
     color: #F4F4F4;
     border: none;
     padding: 10px;
-    margin-top: 10px;
+    margin-top: 5px;
     cursor: pointer;
 }
 
-button:hover {
+button:hover, input[type="submit"].btn:hover {
     background-color: #444;
 }
 
@@ -45,4 +45,12 @@ input[type="text"] {
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+.content {
+    background-color: #D3D3D3;
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 800px;
 }

@@ -7,21 +7,19 @@
 </head>
 <body>
     <h3>Welcome to Main page!</h3>
-    <br/>
-    <form th:method="GET" th:action="@{/people/show}">
-        <button type="submit">Show people</button>
-    </form>
-    <br/>
-    <form th:method="GET" th:action="@{/people/new}">
-        <button type="submit">New person</button>
-    </form>
-    <br/>
-    <form th:method="GET" th:action="@{/people/edit}">
-        <button type="submit">Edit person</button>
-    </form>
-    <br/>
-    <form th:method="GET" th:action="@{/people/delete}">
-        <button type="submit">Delete person</button>
-    </form>
+    <div class="content">
+        <form th:method="GET" th:action="@{/people/show}">
+            <button type="submit">Show people</button>
+        </form>
+        <form th:method="GET" th:action="@{/people/new}">
+            <button type="submit">New person</button>
+        </form>
+        <form th:method="GET" th:action="@{/people/edit}">
+            <button type="submit">Edit person</button>
+        </form>
+        <form th:method="GET" th:action="@{/people/delete}">
+            <button type="submit">Delete person</button>
+        </form>
+    </div>
 </body>
 </html>
