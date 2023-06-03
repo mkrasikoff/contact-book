@@ -1,15 +1,16 @@
-# Spring MVC Application
+# Spring MVC Application with Kotlin
 
-This is a simple Spring MVC application that uses a MySQL database. The purpose of this application is to practice creating MVC systems without using Spring Boot. The application and database are containerized using Docker and managed with Docker Compose.
+This is a simple Spring MVC application that uses a MySQL database. The purpose of this application is to practice creating MVC systems without using Spring Boot. The application and database are containerized using Docker and managed with Docker Compose. This application is written in Java and Kotlin, and over time, more functionality will be migrated to Kotlin.
 
 ## Prerequisites
 
 Ensure that you have the following installed on your system:
 
 1. [Java 11](https://adoptopenjdk.net/)
-2. [Maven](https://maven.apache.org/download.cgi)
-3. [Docker](https://docs.docker.com/get-docker/)
-4. [Docker Compose](https://docs.docker.com/compose/install/)
+2. [Kotlin](https://kotlinlang.org/docs/command-line.html)
+3. [Maven](https://maven.apache.org/download.cgi)
+4. [Docker](https://docs.docker.com/get-docker/)
+5. [Docker Compose](https://docs.docker.com/compose/install/)
 
 ## Steps to run the application
 
