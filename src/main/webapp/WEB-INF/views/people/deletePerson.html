@@ -6,14 +6,17 @@
     <link rel="stylesheet" th:href="@{/static/css/styles.css}">
 </head>
 <body>
-    <h3 class="title">Delete person</h3>
+<h3 class="title">Delete person</h3>
     <div class="content">
         <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}" class="info-form">
-            <div class="info">
-                <p class="info-text" th:text="${person.getName()}">person</p>
-                <p class="info-text" th:text="${person.getSurname()}">person</p>
-                <p class="info-text" th:text="${person.getEmail()}">person</p>
-                <p class="info-text" th:text="${person.getId()}">person</p>
+            <div class="user-item">
+                <div class="user-image"></div>
+                <div class="info">
+                    <p class="info-text" th:text="${person.getName()}">person</p>
+                    <p class="info-text" th:text="${person.getSurname()}">person</p>
+                    <p class="info-text" th:text="${person.getEmail()}">person</p>
+                    <p class="info-text" th:text="${person.getId()}">person</p>
+                </div>
             </div>
             <input type="submit" value="Delete person" class="btn danger"/>
         </form>

@@ -6,13 +6,28 @@
     <link rel="stylesheet" th:href="@{/static/css/styles.css}">
 </head>
 <body>
-    <h3 class="title">Select person to edit</h3>
+    <h3>Select person to edit</h3>
     <div class="content">
-        <div class="list">
-            <div th:each="person : ${people}" class="item">
-                <a class="link" th:href="@{/people/{id}/edit(id=${person.getId()})}" th:text="${person.getName()} + ' ' + ${person.getSurname()}">person</a>
-            </div>
-        </div>
+        <table class="user-list">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="person : ${people}">
+                <td><div class="user-image"></div></td>
+                <td th:text="${person.getName()}">Name</td>
+                <td th:text="${person.getSurname()}">Surname</td>
+                <td>
+                    <a th:href="@{/people/{id}/edit(id=${person.getId()})}">Edit</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
         <form action="javascript:history.back()" class="actions">
             <button class="btn">Get back</button>
         </form>
