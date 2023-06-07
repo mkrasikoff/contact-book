@@ -3,6 +3,8 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import ru.mkrasikoff.springmvcapp.exception.PersonNotFoundException
 import ru.mkrasikoff.springmvcapp.models.Person
 import ru.mkrasikoff.springmvcapp.repo.PersonRepository
 import ru.mkrasikoff.springmvcapp.service.PersonService
@@ -21,29 +23,26 @@ class PersonServiceTest {
         const val PERSON_NAME_2 = "Eva"
         const val PERSON_SURNAME_2 = "Smith"
         const val PERSON_EMAIL_2 = "eva_smith@email.com"
-    }
-    private lateinit var personRepository: PersonRepository
-    private lateinit var personService: PersonService
-    private var person: Person = Person(
-        id = PERSON_ID,
-        name = PERSON_NAME,
-        surname = PERSON_SURNAME,
-        email = PERSON_EMAIL
-    )
-    private var people: List<Person> = listOf(
-        Person(
+
+        var PERSON: Person = Person(
             id = PERSON_ID,
             name = PERSON_NAME,
             surname = PERSON_SURNAME,
             email = PERSON_EMAIL
-        ),
-        Person(
-            id = PERSON_ID_2,
-            name = PERSON_NAME_2,
-            surname = PERSON_SURNAME_2,
-            email = PERSON_EMAIL_2
         )
-    )
+        var PERSON_2: Person = Person(
+        id = PERSON_ID_2,
+        name = PERSON_NAME_2,
+        surname = PERSON_SURNAME_2,
+        email = PERSON_EMAIL_2
+        )
+
+        var PEOPLE: List<Person> = listOf(PERSON, PERSON_2)
+
+        const val ERROR_MESSAGE = "Some error message."
+    }
+    private lateinit var personRepository: PersonRepository
+    private lateinit var personService: PersonService
 
     @BeforeEach
     fun setUp() {
@@ -57,37 +56,37 @@ class PersonServiceTest {
             personRepository.save(any())
         } returns Unit
 
-        personService.savePerson(person)
+        personService.savePerson(PERSON)
 
         verify {
-            personRepository.save(person)
+            personRepository.save(PERSON)
         }
     }
 
     @Test
     fun showPerson_personExists_personReturned() {
         every {
-            personRepository.findById(1)
-        } returns person
+            personRepository.findById(any())
+        } returns PERSON
 
-        val foundPerson = personService.showPerson(1)
+        val foundPerson = personService.showPerson(PERSON_ID)
 
         verify {
-            personRepository.findById(1)
+            personRepository.findById(PERSON_ID)
         }
-        assertEquals(person, foundPerson)
+        assertEquals(PERSON, foundPerson)
     }
 
     @Test
-    fun showPerson_personNotExists_nullReturned() {
+    fun showPerson_personDoesNotExists_nullReturned() {
         every {
-            personRepository.findById(1)
+            personRepository.findById(any())
         } returns null
 
-        val foundPerson = personService.showPerson(1)
+        val foundPerson = personService.showPerson(PERSON_ID)
 
         verify {
-            personRepository.findById(1)
+            personRepository.findById(PERSON_ID)
 
         }
         assertNull(foundPerson)
@@ -97,27 +96,63 @@ class PersonServiceTest {
     fun showPeople_peopleExist_peopleReturned() {
         every {
             personRepository.findAll()
-        } returns people
+        } returns PEOPLE
 
         val foundPeople = personService.showPeople()
 
         verify {
             personRepository.findAll()
         }
-        assertEquals(people, foundPeople)
+        assertEquals(PEOPLE, foundPeople)
     }
 
     @Test
-    fun showPeople_peopleNotExist_nullReturned() {
+    fun showPeople_peopleDoesNotExist_emptyListReturned() {
         every {
             personRepository.findAll()
-        } returns null
+        } returns listOf()
 
         val foundPeople = personService.showPeople()
 
         verify {
             personRepository.findAll()
         }
-        assertNull(foundPeople)
+        assertEquals(listOf<Person>(), foundPeople)
+    }
+
+    @Test
+    fun updatePerson_personInfoIsGiven_personUpdated() {
+        val updatedPerson = Person(id = 3,
+            name = "Patrick",
+            surname = "Smith",
+            email = "patrick_smith@email.com"
+        )
+        every {
+            personRepository.update(any(), any())
+        } returns Unit
+
+        personService.updatePerson(updatedPerson, PERSON_ID)
+
+        verify {
+            personRepository.update(updatedPerson, PERSON_ID)
+        }
+    }
+
+    @Test
+    fun updatePerson_personDoesNotExist_exceptionThrown() {
+        val updatedPerson = Person(
+            id = 3,
+            name = "Patrick",
+            surname = "Smith",
+            email = "patrick_smith@email.com"
+        )
+
+        every {
+            personRepository.update(any(), any())
+        } throws PersonNotFoundException(ERROR_MESSAGE)
+
+        assertThrows<PersonNotFoundException> {
+            personService.updatePerson(updatedPerson, PERSON_ID)
+        }
     }
 }

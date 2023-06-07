@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import ru.mkrasikoff.springmvcapp.exception.PersonNotFoundException;
 import ru.mkrasikoff.springmvcapp.models.Person;
 import java.util.List;
 
@@ -57,7 +58,9 @@ public class JdbcPersonRepository implements PersonRepository {
         String surname = person.getSurname();
         String email = person.getEmail();
 
-        jdbcTemplate.update(QUERY_UPDATE_PERSON, name, surname, email, id);
+        int updatedRows = jdbcTemplate.update(QUERY_UPDATE_PERSON, name, surname, email, id);
+
+        if(updatedRows == 0) throw new PersonNotFoundException("Person with id " + id + " not found.");
     }
 
     @Override
