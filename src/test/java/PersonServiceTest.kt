@@ -9,7 +9,6 @@ import ru.mkrasikoff.springmvcapp.models.Person
 import ru.mkrasikoff.springmvcapp.repo.PersonRepository
 import ru.mkrasikoff.springmvcapp.service.PersonService
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 
 class PersonServiceTest {
 
@@ -78,18 +77,14 @@ class PersonServiceTest {
     }
 
     @Test
-    fun showPerson_personDoesNotExists_nullReturned() {
+    fun showPerson_personDoesNotExists_exceptionThrown() {
         every {
             personRepository.findById(any())
-        } returns null
+        } throws PersonNotFoundException(ERROR_MESSAGE)
 
-        val foundPerson = personService.showPerson(PERSON_ID)
-
-        verify {
-            personRepository.findById(PERSON_ID)
-
+        assertThrows<PersonNotFoundException> {
+            personService.showPerson(PERSON_ID)
         }
-        assertNull(foundPerson)
     }
 
     @Test
@@ -146,7 +141,6 @@ class PersonServiceTest {
             surname = "Smith",
             email = "patrick_smith@email.com"
         )
-
         every {
             personRepository.update(any(), any())
         } throws PersonNotFoundException(ERROR_MESSAGE)

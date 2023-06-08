@@ -40,7 +40,7 @@ public class JdbcPersonRepository implements PersonRepository {
     public Person findById(int id) {
         List<Person> people = jdbcTemplate.query(QUERY_SHOW_PERSON, new BeanPropertyRowMapper<>(Person.class), id);
 
-        return people.stream().findAny().orElse(null);
+        return people.stream().findAny().orElseThrow(() -> new PersonNotFoundException("Person with id " + id + " not found."));
     }
 
     @Override
