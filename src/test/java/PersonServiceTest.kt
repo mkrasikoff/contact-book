@@ -4,6 +4,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import ru.mkrasikoff.springmvcapp.exception.PersonAlreadyExistsException
 import ru.mkrasikoff.springmvcapp.exception.PersonNotFoundException
 import ru.mkrasikoff.springmvcapp.models.Person
 import ru.mkrasikoff.springmvcapp.repo.PersonRepository
@@ -59,6 +60,17 @@ class PersonServiceTest {
 
         verify {
             personRepository.save(PERSON)
+        }
+    }
+
+    @Test
+    fun savePerson_whenPersonWithThisIdAlreadyExists_exceptionThrown() {
+        every {
+            personRepository.save(any())
+        } throws PersonAlreadyExistsException(ERROR_MESSAGE)
+
+        assertThrows<PersonAlreadyExistsException>() {
+            personService.savePerson(PERSON)
         }
     }
 

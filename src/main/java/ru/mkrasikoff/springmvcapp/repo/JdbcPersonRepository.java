@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import ru.mkrasikoff.springmvcapp.exception.PersonAlreadyExistsException;
 import ru.mkrasikoff.springmvcapp.exception.PersonNotFoundException;
 import ru.mkrasikoff.springmvcapp.models.Person;
 import java.util.List;
@@ -45,11 +46,17 @@ public class JdbcPersonRepository implements PersonRepository {
 
     @Override
     public void save(Person person) {
+        int id = person.getId();
         String name = person.getName();
         String surname = person.getSurname();
         String email = person.getEmail();
 
-        jdbcTemplate.update(QUERY_SAVE_PERSON, name, surname, email);
+        try {
+            findById(id);
+            throw new PersonAlreadyExistsException("Person with id " + id + " already exists.");
+        } catch (PersonNotFoundException exc) {
+            jdbcTemplate.update(QUERY_SAVE_PERSON, name, surname, email);
+        }
     }
 
     @Override
