@@ -161,4 +161,28 @@ class PersonServiceTest {
             personService.updatePerson(updatedPerson, PERSON_ID)
         }
     }
+
+    @Test
+    fun deletePerson_personExisted_personDeleted() {
+        every {
+            personRepository.deleteById(any())
+        } returns Unit
+
+        personService.deletePerson(PERSON_ID)
+
+        verify {
+            personRepository.deleteById(PERSON_ID)
+        }
+    }
+
+    @Test
+    fun deletePerson_personDidNotExist_exceptionThrown() {
+        every {
+            personRepository.deleteById(any())
+        } throws PersonNotFoundException(ERROR_MESSAGE)
+
+        assertThrows<PersonNotFoundException> {
+            personService.deletePerson(PERSON_ID)
+        }
+    }
 }

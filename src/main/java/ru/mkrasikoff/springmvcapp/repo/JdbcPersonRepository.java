@@ -72,6 +72,8 @@ public class JdbcPersonRepository implements PersonRepository {
 
     @Override
     public void deleteById(int id) {
-        jdbcTemplate.update(QUERY_DELETE_PERSON, id);
+        int deletedRows = jdbcTemplate.update(QUERY_DELETE_PERSON, id);
+
+        if(deletedRows == 0) throw new PersonNotFoundException("Person with id " + id + " not found.");
     }
 }
