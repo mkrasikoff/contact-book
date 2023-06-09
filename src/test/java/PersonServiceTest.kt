@@ -4,11 +4,11 @@ import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import ru.mkrasikoff.springmvcapp.exception.PersonAlreadyExistsException
-import ru.mkrasikoff.springmvcapp.exception.PersonNotFoundException
+import ru.mkrasikoff.springmvcapp.exceptions.PersonAlreadyExistsException
+import ru.mkrasikoff.springmvcapp.exceptions.PersonNotFoundException
 import ru.mkrasikoff.springmvcapp.models.Person
-import ru.mkrasikoff.springmvcapp.repo.PersonRepository
-import ru.mkrasikoff.springmvcapp.service.PersonService
+import ru.mkrasikoff.springmvcapp.repos.PersonRepository
+import ru.mkrasikoff.springmvcapp.services.PersonService
 import kotlin.test.assertEquals
 
 class PersonServiceTest {

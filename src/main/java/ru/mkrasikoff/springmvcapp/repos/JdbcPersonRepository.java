@@ -1,11 +1,11 @@
-package ru.mkrasikoff.springmvcapp.repo;
+package ru.mkrasikoff.springmvcapp.repos;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import ru.mkrasikoff.springmvcapp.exception.PersonAlreadyExistsException;
-import ru.mkrasikoff.springmvcapp.exception.PersonNotFoundException;
+import ru.mkrasikoff.springmvcapp.exceptions.PersonAlreadyExistsException;
+import ru.mkrasikoff.springmvcapp.exceptions.PersonNotFoundException;
 import ru.mkrasikoff.springmvcapp.models.Person;
 import java.util.List;
 

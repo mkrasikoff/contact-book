@@ -1,8 +1,8 @@
-package ru.mkrasikoff.springmvcapp.service;
+package ru.mkrasikoff.springmvcapp.services;
 
 import org.springframework.stereotype.Service;
 import ru.mkrasikoff.springmvcapp.models.Person;
-import ru.mkrasikoff.springmvcapp.repo.PersonRepository;
+import ru.mkrasikoff.springmvcapp.repos.PersonRepository;
 import java.util.List;
 
 @Service

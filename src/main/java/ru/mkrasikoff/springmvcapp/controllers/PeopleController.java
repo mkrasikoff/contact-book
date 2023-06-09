@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.mkrasikoff.springmvcapp.models.Person;
-import ru.mkrasikoff.springmvcapp.service.PersonService;
+import ru.mkrasikoff.springmvcapp.services.PersonService;
 import javax.validation.Valid;
 
 @Controller

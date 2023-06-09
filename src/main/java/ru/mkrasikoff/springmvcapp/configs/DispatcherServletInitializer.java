@@ -1,4 +1,4 @@
-package ru.mkrasikoff.springmvcapp.config;
+package ru.mkrasikoff.springmvcapp.configs;
 
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;

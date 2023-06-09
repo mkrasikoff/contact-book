@@ -1,6 +1,6 @@
 package integration;
 
-import integration.config.IntegrationTestConfig;
+import integration.configs.IntegrationTestConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.mkrasikoff.springmvcapp.models.Person;
-import ru.mkrasikoff.springmvcapp.repo.JdbcPersonRepository;
+import ru.mkrasikoff.springmvcapp.repos.JdbcPersonRepository;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;

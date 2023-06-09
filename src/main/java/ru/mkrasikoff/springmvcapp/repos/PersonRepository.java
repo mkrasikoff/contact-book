@@ -1,4 +1,4 @@
-package ru.mkrasikoff.springmvcapp.repo;
+package ru.mkrasikoff.springmvcapp.repos;
 
 import ru.mkrasikoff.springmvcapp.models.Person;
 import java.util.List;
