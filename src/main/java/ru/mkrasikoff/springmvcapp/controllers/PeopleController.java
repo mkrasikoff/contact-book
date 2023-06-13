@@ -96,7 +96,6 @@ public class PeopleController {
     @GetMapping("/generate")
     public String generateRandomPeople() {
         personService.createRandomPeople();
-
         return "redirect:/people/show";
     }
 }

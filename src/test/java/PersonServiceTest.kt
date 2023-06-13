@@ -8,6 +8,7 @@ import ru.mkrasikoff.springmvcapp.exceptions.PersonAlreadyExistsException
 import ru.mkrasikoff.springmvcapp.exceptions.PersonNotFoundException
 import ru.mkrasikoff.springmvcapp.models.Person
 import ru.mkrasikoff.springmvcapp.repos.PersonRepository
+import ru.mkrasikoff.springmvcapp.services.GenerateService
 import ru.mkrasikoff.springmvcapp.services.PersonService
 import kotlin.test.assertEquals
 
@@ -43,11 +44,13 @@ class PersonServiceTest {
     }
     private lateinit var personRepository: PersonRepository
     private lateinit var personService: PersonService
+    private lateinit var generateService: GenerateService
 
     @BeforeEach
     fun setUp() {
         personRepository = mockk()
-        personService = PersonService(personRepository)
+        generateService = mockk()
+        personService = PersonService(personRepository, generateService)
     }
 
     @Test

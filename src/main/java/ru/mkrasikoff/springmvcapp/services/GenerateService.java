@@ -12,11 +12,10 @@ public class GenerateService {
     Faker faker = new Faker();
 
     public Person generateRandomPerson() {
-        int id = random.nextInt();
         String name = faker.name().firstName();
         String surname = faker.name().lastName();
         String email = faker.internet().emailAddress();
 
-        return new Person(id, name, surname, email);
+        return new Person(name, surname, email);
     }
 }

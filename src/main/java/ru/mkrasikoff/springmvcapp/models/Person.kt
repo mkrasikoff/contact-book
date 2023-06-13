@@ -18,4 +18,6 @@ data class Person(
         @field:NotEmpty(message = "Email shouldn't be empty")
         @field:Email(message = "Email should be valid")
         var email: String? = null
-)
+) {
+        constructor(name: String, surname: String, email: String) : this(0, name, surname, email)
+}

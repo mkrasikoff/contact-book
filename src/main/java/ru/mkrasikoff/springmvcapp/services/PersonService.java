@@ -1,6 +1,5 @@
 package ru.mkrasikoff.springmvcapp.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mkrasikoff.springmvcapp.models.Person;
 import ru.mkrasikoff.springmvcapp.repos.PersonRepository;
@@ -10,12 +9,11 @@ import java.util.List;
 public class PersonService {
 
     private final PersonRepository personRepository;
+    private final GenerateService generateService;
 
-    @Autowired
-    private GenerateService generateService;
-
-    public PersonService(PersonRepository personRepository) {
+    public PersonService(PersonRepository personRepository, GenerateService generateService) {
         this.personRepository = personRepository;
+        this.generateService = generateService;
     }
 
     public List<Person> showPeople() {

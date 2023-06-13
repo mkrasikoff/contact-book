@@ -26,13 +26,12 @@ public class JdbcPersonRepository implements PersonRepository {
             "email VARCHAR(50))";
 
     private JdbcTemplate jdbcTemplate;
-
-    @Autowired
     private GenerateService generateService;
 
     @Autowired
-    public JdbcPersonRepository(JdbcTemplate jdbcTemplate) {
+    public JdbcPersonRepository(JdbcTemplate jdbcTemplate, GenerateService generateService) {
         this.jdbcTemplate = jdbcTemplate;
+        this.generateService = generateService;
 
         jdbcTemplate.execute(QUERY_CREATE_TABLE);
 

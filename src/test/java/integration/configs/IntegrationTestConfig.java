@@ -33,7 +33,7 @@ public class IntegrationTestConfig {
     }
 
     @Bean
-    public JdbcPersonRepository personRepository(JdbcTemplate jdbcTemplate) {
-        return new JdbcPersonRepository(jdbcTemplate);
+    public JdbcPersonRepository personRepository(JdbcTemplate jdbcTemplate, GenerateService generateService) {
+        return new JdbcPersonRepository(jdbcTemplate, generateService);
     }
 }
