@@ -17,6 +17,7 @@ public class JdbcPersonRepository implements PersonRepository {
     private static final String QUERY_SAVE_PERSON = "INSERT INTO person(name, surname, email) VALUES(?, ?, ?)";
     private static final String QUERY_UPDATE_PERSON = "UPDATE person SET name = ?, surname = ?, email = ? WHERE id = ?";
     private static final String QUERY_DELETE_PERSON = "DELETE FROM person WHERE id = ?";
+    private static final String QUERY_SEARCH_PERSON = "SELECT * FROM person WHERE CONCAT(name, ' ', surname) LIKE ?";
     private static final String QUERY_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS person " +
             "(id INT PRIMARY KEY AUTO_INCREMENT, " +
             "name VARCHAR(30), " +
@@ -75,5 +76,11 @@ public class JdbcPersonRepository implements PersonRepository {
         int deletedRows = jdbcTemplate.update(QUERY_DELETE_PERSON, id);
 
         if(deletedRows == 0) throw new PersonNotFoundException("Person with id " + id + " not found.");
+    }
+
+    @Override
+    public List<Person> search(String query) {
+        String searchQuery = "%" + query + "%";
+        return jdbcTemplate.query(QUERY_SEARCH_PERSON, new BeanPropertyRowMapper<>(Person.class), searchQuery);
     }
 }

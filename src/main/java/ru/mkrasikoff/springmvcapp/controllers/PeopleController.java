@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.mkrasikoff.springmvcapp.models.Person;
 import ru.mkrasikoff.springmvcapp.services.PersonService;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/people")
@@ -83,5 +84,12 @@ public class PeopleController {
     public String removePerson(@PathVariable("id") int id) {
         personService.deletePerson(id);
         return "redirect:/people/show";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam String query, Model model) {
+        List<Person> persons = personService.search(query);
+        model.addAttribute("people", persons);
+        return "people/showPeople";
     }
 }

@@ -10,4 +10,5 @@ public interface PersonRepository {
     void save(Person person);
     void update(Person person, int id);
     void deleteById(int id);
+    List<Person> search(String query);
 }

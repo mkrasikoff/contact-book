@@ -33,4 +33,8 @@ public class PersonService {
     public void deletePerson(int id) {
         personRepository.deleteById(id);
     }
+
+    public List<Person> search(String query) {
+        return personRepository.search(query);
+    }
 }

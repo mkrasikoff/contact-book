@@ -8,6 +8,10 @@
 <body>
 <h3>Current people list</h3>
     <div class="content">
+        <form th:method="GET" th:action="@{/people/search}">
+            <input type="text" name="query" placeholder="Search..." class="search-input">
+            <input type="submit" value="Search" class="btn">
+        </form>
         <table class="user-list">
             <thead>
             <tr>
