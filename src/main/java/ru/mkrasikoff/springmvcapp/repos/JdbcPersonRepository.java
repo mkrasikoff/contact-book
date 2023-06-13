@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.mkrasikoff.springmvcapp.exceptions.PersonAlreadyExistsException;
 import ru.mkrasikoff.springmvcapp.exceptions.PersonNotFoundException;
 import ru.mkrasikoff.springmvcapp.models.Person;
+import ru.mkrasikoff.springmvcapp.services.GenerateService;
 import java.util.List;
 
 @Repository
@@ -27,10 +28,19 @@ public class JdbcPersonRepository implements PersonRepository {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
+    private GenerateService generateService;
+
+    @Autowired
     public JdbcPersonRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
 
         jdbcTemplate.execute(QUERY_CREATE_TABLE);
+
+        if (findAll().isEmpty()) {
+            for (int i = 1; i <= 10; i++) {
+                save(generateService.generateRandomPerson());
+            }
+        }
     }
 
     @Override

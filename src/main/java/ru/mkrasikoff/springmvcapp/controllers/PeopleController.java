@@ -92,4 +92,11 @@ public class PeopleController {
         model.addAttribute("people", persons);
         return "people/showPeople";
     }
+
+    @GetMapping("/generate")
+    public String generateRandomPeople() {
+        personService.createRandomPeople();
+
+        return "redirect:/people/show";
+    }
 }

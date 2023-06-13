@@ -1,5 +1,6 @@
 package ru.mkrasikoff.springmvcapp.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mkrasikoff.springmvcapp.models.Person;
 import ru.mkrasikoff.springmvcapp.repos.PersonRepository;
@@ -9,6 +10,9 @@ import java.util.List;
 public class PersonService {
 
     private final PersonRepository personRepository;
+
+    @Autowired
+    private GenerateService generateService;
 
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
@@ -36,5 +40,11 @@ public class PersonService {
 
     public List<Person> search(String query) {
         return personRepository.search(query);
+    }
+
+    public void createRandomPeople() {
+        for (int i = 1; i <= 10; i++) {
+            savePerson(generateService.generateRandomPerson());
+        }
     }
 }

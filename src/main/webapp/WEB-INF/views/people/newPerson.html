@@ -20,6 +20,9 @@
             <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
             <button type="submit">Submit</button>
         </form>
+        <form th:action="@{/people/generate}">
+            <button type="submit">Generate people</button>
+        </form>
         <form action="javascript:history.back()">
             <button>Get back</button>
         </form>

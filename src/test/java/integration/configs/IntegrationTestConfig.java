@@ -6,6 +6,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import ru.mkrasikoff.springmvcapp.repos.JdbcPersonRepository;
+import ru.mkrasikoff.springmvcapp.services.GenerateService;
+
 import javax.sql.DataSource;
 
 @Configuration
@@ -23,6 +25,11 @@ public class IntegrationTestConfig {
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
+    }
+
+    @Bean
+    public GenerateService generateService() {
+        return new GenerateService();
     }
 
     @Bean
