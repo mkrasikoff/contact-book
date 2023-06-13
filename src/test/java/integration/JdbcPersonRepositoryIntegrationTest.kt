@@ -1,134 +1,140 @@
-package integration;
+package integration
 
-import integration.configs.IntegrationTestConfig;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.mkrasikoff.springmvcapp.models.Person;
-import ru.mkrasikoff.springmvcapp.repos.JdbcPersonRepository;
-import ru.mkrasikoff.springmvcapp.exceptions.PersonNotFoundException;
-import java.util.List;
+import integration.configs.IntegrationTestConfig
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.jupiter.api.function.Executable
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit.jupiter.SpringExtension
+import ru.mkrasikoff.springmvcapp.exceptions.PersonNotFoundException
+import ru.mkrasikoff.springmvcapp.models.Person
+import ru.mkrasikoff.springmvcapp.repos.JdbcPersonRepository
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+@ExtendWith(SpringExtension::class)
+@ContextConfiguration(classes = [IntegrationTestConfig::class])
+class JdbcPersonRepositoryIntegrationTest {
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = IntegrationTestConfig.class)
-public class JdbcPersonRepositoryIntegrationTest {
-
-    private static final String QUERY_INSERT_PERSON = "INSERT INTO person(id, name, surname, email) VALUES(?, ?, ?, ?)";
-    private static final String QUERY_DELETE_PERSON = "DELETE FROM person";
-    private static final String MESSAGE_PERSON_NOT_FOUND = "Person with id 999 not found.";
-    private static final int ID_NONEXISTENT_USER = 999;
-
-    private Person person;
-
-    @Autowired
-    private JdbcPersonRepository personRepository;
+    companion object {
+        private const val QUERY_INSERT_PERSON = "INSERT INTO person(id, name, surname, email) VALUES(?, ?, ?, ?)"
+        private const val QUERY_DELETE_PERSON = "DELETE FROM person"
+        private const val MESSAGE_PERSON_NOT_FOUND = "Person with id 999 not found."
+        private const val ID_NONEXISTENT_USER = 999
+    }
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    lateinit var personRepository: JdbcPersonRepository
+
+    @Autowired
+    lateinit var jdbcTemplate: JdbcTemplate
+
+    lateinit var person: Person
 
     @BeforeEach
-    void setup() {
-        jdbcTemplate.update(QUERY_DELETE_PERSON);
-        person = createPerson();
-        jdbcTemplate.update(QUERY_INSERT_PERSON, person.getId(), person.getName(), person.getSurname(), person.getEmail());
+    fun setup() {
+        jdbcTemplate.update(QUERY_DELETE_PERSON)
+        person = createPerson()
+        jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email)
     }
 
     @Test
-    public void findById_givenCorrectPersonId_personReturned() {
-        int id = person.getId();
-
-        Person found = personRepository.findById(id);
+    fun findById_givenCorrectPersonId_personReturned() {
+        val id = person.id
+        val (id1, name, surname, email) = personRepository.findById(id)
 
         assertAll("Person",
-                () -> assertEquals(id, found.getId(), "ID should match"),
-                () -> assertEquals(person.getName(), found.getName(), "Name should match"),
-                () -> assertEquals(person.getSurname(), found.getSurname(), "Surname should match"),
-                () -> assertEquals(person.getEmail(), found.getEmail(), "Email should match")
-        );
+            Executable { assertEquals(id, id1, "ID should match") },
+            Executable { assertEquals(person.name, name, "Name should match") },
+            Executable { assertEquals(person.surname, surname, "Surname should match") },
+            Executable { assertEquals(person.email, email, "Email should match") }
+        )
     }
 
     @Test
-    public void findById_givenIncorrectPersonId_thrownException() {
-        PersonNotFoundException exception = assertThrows(PersonNotFoundException.class, () -> personRepository.findById(ID_NONEXISTENT_USER));
+    fun findById_givenIncorrectPersonId_thrownException() {
+        val exception = assertThrows(PersonNotFoundException::class.java) {
+            personRepository.findById(ID_NONEXISTENT_USER)
+        }
 
-        assertEquals(MESSAGE_PERSON_NOT_FOUND, exception.getMessage());
+        assertEquals(MESSAGE_PERSON_NOT_FOUND, exception.message)
     }
 
     @Test
-    public void findAll_twoPersonsCreated_returnsAllPersons() {
-        Person secondPerson = new Person(2, "Eva", "Smith", "eva_smith@email.com");
-        jdbcTemplate.update(QUERY_INSERT_PERSON, secondPerson.getId(), secondPerson.getName(), secondPerson.getSurname(), secondPerson.getEmail());
+    fun findAll_twoPersonsCreated_returnsAllPersons() {
+        val secondPerson = Person(2, "Eva", "Smith", "eva_smith@email.com")
+        jdbcTemplate.update(QUERY_INSERT_PERSON, secondPerson.id, secondPerson.name, secondPerson.surname, secondPerson.email)
 
-        List<Person> persons = personRepository.findAll();
+        val persons = personRepository.findAll()
 
-        assertEquals(2, persons.size());
-        assertTrue(persons.contains(person));
-        assertTrue(persons.contains(secondPerson));
+        assertEquals(2, persons.size)
+        assertTrue(persons.contains(person))
+        assertTrue(persons.contains(secondPerson))
     }
 
     @Test
-    public void save_givenValidPerson_returnsSavedPerson() {
-        Person newPerson = new Person(2, "Eva", "Smith", "eva_smith@email.com");
+    fun save_givenValidPerson_returnsSavedPerson() {
+        val newPerson = Person(2, "Eva", "Smith", "eva_smith@email.com")
 
-        personRepository.save(newPerson);
-        List<Person> persons = personRepository.findAll();
-        Person savedPerson = persons.stream()
-                .filter(p -> p.getName().equals(newPerson.getName())
-                        && p.getSurname().equals(newPerson.getSurname())
-                        && p.getEmail().equals(newPerson.getEmail()))
-                .findFirst()
-                .orElseThrow(() -> new AssertionError("Saved person not found"));
+        personRepository.save(newPerson)
 
-        assertEquals(newPerson.getName(), savedPerson.getName(), "Names should match");
-        assertEquals(newPerson.getSurname(), savedPerson.getSurname(), "Surnames should match");
-        assertEquals(newPerson.getEmail(), savedPerson.getEmail(), "Emails should match");
+        val persons = personRepository.findAll()
+        val savedPerson = persons.first {
+            it.name == newPerson.name && it.surname == newPerson.surname && it.email == newPerson.email
+        }
+        assertEquals(newPerson.name, savedPerson.name, "Name should match")
+        assertEquals(newPerson.surname, savedPerson.surname, "Surname should match")
+        assertEquals(newPerson.email, savedPerson.email, "Email should match")
     }
 
     @Test
-    public void update_givenExistingPerson_personUpdated() {
-        person.setName("Updated name");
-        personRepository.update(person, person.getId());
-        Person updatedPerson = personRepository.findById(person.getId());
+    fun update_givenExistingPerson_personUpdated() {
+        person.name = "Updated name"
 
-        assertEquals("Updated name", updatedPerson.getName());
+        personRepository.update(person, person.id)
+
+        val (_, name) = personRepository.findById(person.id)
+        assertEquals("Updated name", name)
     }
 
     @Test
-    public void update_givenNonExistingPerson_throwsException() {
-        Person nonExistingPerson = new Person(ID_NONEXISTENT_USER, "Non", "Existing", "non_existing@email.com");
+    fun update_givenNonExistingPerson_throwsException() {
+        val nonExistingPerson = Person(ID_NONEXISTENT_USER, "Non", "Existing", "non_existing@email.com")
 
-        PersonNotFoundException exception = assertThrows(PersonNotFoundException.class, () -> personRepository.update(nonExistingPerson, nonExistingPerson.getId()));
+        val exception = assertThrows(PersonNotFoundException::class.java) {
+            personRepository.update(nonExistingPerson, nonExistingPerson.id)
+        }
 
-        assertEquals(exception.getMessage(), MESSAGE_PERSON_NOT_FOUND);
+        assertEquals(exception.message, MESSAGE_PERSON_NOT_FOUND)
     }
 
     @Test
-    public void delete_givenExistingPerson_personDeleted() {
-        assertNotNull(personRepository.findById(person.getId()));
+    fun delete_givenExistingPerson_personDeleted() {
+        assertNotNull(personRepository.findById(person.id))
 
-        personRepository.deleteById(person.getId());
+        personRepository.deleteById(person.id)
 
-        assertThrows(PersonNotFoundException.class, () -> personRepository.findById(person.getId()));
+        assertThrows(PersonNotFoundException::class.java) {
+            personRepository.findById(person.id)
+        }
     }
 
     @Test
-    public void delete_givenNonExistingPerson_throwsException() {
-        PersonNotFoundException exception = assertThrows(PersonNotFoundException.class, () -> personRepository.deleteById(ID_NONEXISTENT_USER));
+    fun delete_givenNonExistingPerson_throwsException() {
+        val exception = assertThrows(PersonNotFoundException::class.java) {
+            personRepository.deleteById(ID_NONEXISTENT_USER)
+        }
 
-        assertEquals(exception.getMessage(), MESSAGE_PERSON_NOT_FOUND);
+        assertEquals(exception.message, MESSAGE_PERSON_NOT_FOUND)
     }
 
-    private Person createPerson() {
-        return new Person(1, "Adam", "Smith", "adam_smith@email.com");
+    private fun createPerson(): Person {
+        return Person(1, "Adam", "Smith", "adam_smith@email.com")
     }
 }
