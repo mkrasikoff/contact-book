@@ -188,4 +188,19 @@ class PersonServiceTest {
             personService.deletePerson(PERSON_ID)
         }
     }
+
+    @Test
+    fun createRandomPeople_functionIsCalled_peopleCreated() {
+        every {
+            generateService.generateRandomPerson()
+        } returns PERSON
+        every {
+            personRepository.save(any())
+        } returns Unit
+
+        personService.createRandomPeople()
+
+        verify(exactly = 10) { generateService.generateRandomPerson() }
+        verify(exactly = 10) { personRepository.save(any<Person>()) }
+    }
 }

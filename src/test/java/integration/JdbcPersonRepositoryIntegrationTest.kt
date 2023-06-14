@@ -134,6 +134,55 @@ class JdbcPersonRepositoryIntegrationTest {
         assertEquals(exception.message, MESSAGE_PERSON_NOT_FOUND)
     }
 
+    @Test
+    fun search_givenPartOfName_returnsCorrectPerson() {
+        val name = "Eva"
+        val person = Person(2, name, "Smith", "eva_smith@email.com")
+        jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email)
+
+        val persons = personRepository.search(name)
+
+        assertEquals(1, persons.size)
+        assertTrue(persons.contains(person))
+    }
+
+    @Test
+    fun search_givenFullName_returnsCorrectPerson() {
+        val name = "Eva"
+        val surname = "Smith"
+        val person = Person(2, name, surname, "eva_smith@email.com")
+        jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email)
+        val searchQuery = "$name $surname"
+
+        val persons = personRepository.search(searchQuery)
+
+        assertEquals(1, persons.size)
+        assertTrue(persons.contains(person))
+    }
+
+    @Test
+    fun search_givenPartOfSurname_returnsCorrectPerson() {
+        val name = "Eva"
+        val surname = "Smith"
+        val person = Person(2, name, surname, "eva_smith@email.com")
+        jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email)
+        val searchQuery = "$name Smi"
+
+        val persons = personRepository.search(searchQuery)
+
+        assertEquals(1, persons.size)
+        assertTrue(persons.contains(person))
+    }
+
+    @Test
+    fun search_givenNonexistentName_returnsEmptyList() {
+        val searchQuery = "NonExistent"
+
+        val persons = personRepository.search(searchQuery)
+
+        assertTrue(persons.isEmpty())
+    }
+
     private fun createPerson(): Person {
         return Person(1, "Adam", "Smith", "adam_smith@email.com")
     }
