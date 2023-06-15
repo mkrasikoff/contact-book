@@ -27,7 +27,7 @@
                 <td th:text="${person.getName()}">Name</td>
                 <td th:text="${person.getSurname()}">Surname</td>
                 <td>
-                    <a th:href="@{/people/show/{id}(id=${person.getId()})}">Show</a>
+                    <a th:href="@{/people/{id}(id=${person.getId()})}">Show</a>
                     <a th:href="@{/people/{id}/edit(id=${person.getId()})}">Edit</a>
                     <a th:href="@{/people/{id}/delete(id=${person.getId()})}">Delete</a>
                 </td>

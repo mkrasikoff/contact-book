@@ -31,7 +31,7 @@
             </tr>
         </table>
         <div class="actions">
-            <form th:method="GET" th:action="@{/people/show}">
+            <form th:method="GET" th:action="@{/people}">
                 <button class="btn">People list</button>
             </form>
             <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
