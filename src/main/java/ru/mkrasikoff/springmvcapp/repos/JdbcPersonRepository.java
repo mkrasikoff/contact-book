@@ -18,6 +18,7 @@ public class JdbcPersonRepository implements PersonRepository {
     private static final String QUERY_SAVE_PERSON = "INSERT INTO person(name, surname, email) VALUES(?, ?, ?)";
     private static final String QUERY_UPDATE_PERSON = "UPDATE person SET name = ?, surname = ?, email = ? WHERE id = ?";
     private static final String QUERY_DELETE_PERSON = "DELETE FROM person WHERE id = ?";
+    private static final String QUERY_DELETE_ALL_PEOPLE = "DELETE FROM person";
     private static final String QUERY_SEARCH_PERSON = "SELECT * FROM person WHERE CONCAT(name, ' ', surname) LIKE ?";
     private static final String QUERY_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS person " +
             "(id INT PRIMARY KEY AUTO_INCREMENT, " +
@@ -85,6 +86,11 @@ public class JdbcPersonRepository implements PersonRepository {
         int deletedRows = jdbcTemplate.update(QUERY_DELETE_PERSON, id);
 
         if(deletedRows == 0) throw new PersonNotFoundException("Person with id " + id + " not found.");
+    }
+
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update(QUERY_DELETE_ALL_PEOPLE);
     }
 
     @Override

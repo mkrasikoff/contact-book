@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Delete All</title>
+    <link rel="stylesheet" th:href="@{/static/css/styles.css}">
+</head>
+<body>
+    <h3>Are you sure you want to delete ALL users?</h3>
+    <div class="content">
+        <form th:method="DELETE" th:action="@{/people/deleteAll}">
+            <input type="submit" value="I want to delete all users" class="btn danger"/>
+        </form>
+        <form action="javascript:history.back()" class="actions">
+            <button class="btn">Get back</button>
+        </form>
+    </div>
+</body>
+</html>

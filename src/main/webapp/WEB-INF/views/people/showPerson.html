@@ -37,7 +37,7 @@
             <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
                 <button class="btn">Edit</button>
             </form>
-            <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+            <form th:method="GET" th:action="@{/people/{id}/delete(id=${person.getId()})}">
                 <button class="btn">Delete</button>
             </form>
         </div>

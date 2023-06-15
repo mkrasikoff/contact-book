@@ -36,6 +36,10 @@ public class PersonService {
         personRepository.deleteById(id);
     }
 
+    public void deleteAllPeople() {
+        personRepository.deleteAll();
+    }
+
     public List<Person> search(String query) {
         return personRepository.search(query);
     }

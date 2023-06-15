@@ -77,7 +77,7 @@ public class PeopleController {
     public String deletePerson(Model model,
                                @PathVariable("id") int id) {
         model.addAttribute("person",personService.showPerson(id));
-        return "people/deletePerson";
+        return "people/deletePersonConfirm";
     }
 
     @DeleteMapping("/{id}")
@@ -96,6 +96,17 @@ public class PeopleController {
     @GetMapping("/generate")
     public String generateRandomPeople() {
         personService.createRandomPeople();
+        return "redirect:/people/show";
+    }
+
+    @GetMapping("/deleteAll/confirm")
+    public String confirmDeleteAll() {
+        return "people/deletePeopleConfirm";
+    }
+
+    @DeleteMapping("/deleteAll")
+    public String deleteAll() {
+        personService.deleteAllPeople();
         return "redirect:/people/show";
     }
 }
