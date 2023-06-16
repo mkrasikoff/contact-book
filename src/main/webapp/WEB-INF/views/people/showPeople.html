@@ -27,9 +27,15 @@
                 <td th:text="${person.getName()}">Name</td>
                 <td th:text="${person.getSurname()}">Surname</td>
                 <td>
-                    <a th:href="@{/people/{id}(id=${person.getId()})}">Show</a>
-                    <a th:href="@{/people/{id}/edit(id=${person.getId()})}">Edit</a>
-                    <a th:href="@{/people/{id}/delete(id=${person.getId()})}">Delete</a>
+                    <a th:href="@{/people/{id}(id=${person.getId()})}" style="text-decoration: none; border: none;">
+                        <img th:src="@{/static/png/show_icon.png}" width="20" height="20">
+                    </a>
+                    <a th:href="@{/people/{id}/edit(id=${person.getId()})}" style="text-decoration: none; border: none;">
+                        <img th:src="@{/static/png/edit_icon.png}" width="20" height="20">
+                    </a>
+                    <a th:href="@{/people/{id}/delete(id=${person.getId()})}" style="text-decoration: none; border: none;">
+                        <img th:src="@{/static/png/delete_icon.png}" width="20" height="20">
+                    </a>
                 </td>
             </tr>
             </tbody>

@@ -23,7 +23,9 @@
                 <td th:text="${person.getName()}">Name</td>
                 <td th:text="${person.getSurname()}">Surname</td>
                 <td>
-                    <a th:href="@{/people/{id}/delete(id=${person.getId()})}">Delete</a>
+                    <a th:href="@{/people/{id}/delete(id=${person.getId()})}" style="text-decoration: none; border: none;">
+                        <img th:src="@{/static/png/delete_icon.png}" width="20" height="20">
+                    </a>
                 </td>
             </tr>
             </tbody>
