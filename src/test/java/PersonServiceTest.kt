@@ -203,4 +203,17 @@ class PersonServiceTest {
         verify(exactly = 10) { generateService.generateRandomPerson() }
         verify(exactly = 10) { personRepository.save(any<Person>()) }
     }
+
+    @Test
+    fun deleteAllPeople_givenDatabaseWithPeople_peopleDeleted() {
+        every {
+            personRepository.deleteAll()
+        } returns Unit
+
+        personService.deleteAllPeople()
+
+        verify {
+            personRepository.deleteAll()
+        }
+    }
 }

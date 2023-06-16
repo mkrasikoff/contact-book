@@ -183,6 +183,27 @@ class JdbcPersonRepositoryIntegrationTest {
         assertTrue(persons.isEmpty())
     }
 
+    @Test
+    fun deleteAll_givenDatabaseWithPeople_peopleDeleted() {
+        val newPerson = Person(2, "Eva", "Smith", "eva_smith@email.com")
+        personRepository.save(newPerson)
+
+        personRepository.deleteAll()
+
+        assertTrue(personRepository.findAll().isEmpty())
+    }
+
+    @Test
+    fun deleteAll_methodCalledTwoTimes_databaseIsEmptyWithoutException() {
+        val newPerson = Person(2, "Eva", "Smith", "eva_smith@email.com")
+        personRepository.save(newPerson)
+
+        personRepository.deleteAll()
+        personRepository.deleteAll()
+
+        assertTrue(personRepository.findAll().isEmpty())
+    }
+
     private fun createPerson(): Person {
         return Person(1, "Adam", "Smith", "adam_smith@email.com")
     }
