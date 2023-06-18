@@ -15,8 +15,8 @@ public class JdbcPersonRepository implements PersonRepository {
 
     private static final String QUERY_SHOW_PEOPLE = "SELECT * FROM person";
     private static final String QUERY_SHOW_PERSON = "SELECT * FROM person WHERE id = ?";
-    private static final String QUERY_SAVE_PERSON = "INSERT INTO person(name, surname, email) VALUES(?, ?, ?)";
-    private static final String QUERY_UPDATE_PERSON = "UPDATE person SET name = ?, surname = ?, email = ? WHERE id = ?";
+    private static final String QUERY_SAVE_PERSON = "INSERT INTO person(name, surname, email, logoId) VALUES(?, ?, ?, ?)";
+    private static final String QUERY_UPDATE_PERSON = "UPDATE person SET name = ?, surname = ?, email = ?, logoId = ? WHERE id = ?";
     private static final String QUERY_DELETE_PERSON = "DELETE FROM person WHERE id = ?";
     private static final String QUERY_DELETE_ALL_PEOPLE = "DELETE FROM person";
     private static final String QUERY_SEARCH_PERSON = "SELECT * FROM person WHERE CONCAT(name, ' ', surname) LIKE ?";
@@ -24,7 +24,8 @@ public class JdbcPersonRepository implements PersonRepository {
             "(id INT PRIMARY KEY AUTO_INCREMENT, " +
             "name VARCHAR(30), " +
             "surname VARCHAR(30), " +
-            "email VARCHAR(50))";
+            "email VARCHAR(50)," +
+            "logoId INT)";
 
     private JdbcTemplate jdbcTemplate;
     private GenerateService generateService;
@@ -61,12 +62,13 @@ public class JdbcPersonRepository implements PersonRepository {
         String name = person.getName();
         String surname = person.getSurname();
         String email = person.getEmail();
+        int logoId = person.getLogoId();
 
         try {
             findById(id);
             throw new PersonAlreadyExistsException("Person with id " + id + " already exists.");
         } catch (PersonNotFoundException exc) {
-            jdbcTemplate.update(QUERY_SAVE_PERSON, name, surname, email);
+            jdbcTemplate.update(QUERY_SAVE_PERSON, name, surname, email, logoId);
         }
     }
 
@@ -75,8 +77,9 @@ public class JdbcPersonRepository implements PersonRepository {
         String name = person.getName();
         String surname = person.getSurname();
         String email = person.getEmail();
+        int logoId = person.getLogoId();
 
-        int updatedRows = jdbcTemplate.update(QUERY_UPDATE_PERSON, name, surname, email, id);
+        int updatedRows = jdbcTemplate.update(QUERY_UPDATE_PERSON, name, surname, email, logoId, id);
 
         if(updatedRows == 0) throw new PersonNotFoundException("Person with id " + id + " not found.");
     }

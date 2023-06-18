@@ -17,7 +17,9 @@ data class Person(
 
         @field:NotEmpty(message = "Email shouldn't be empty")
         @field:Email(message = "Email should be valid")
-        var email: String? = null
+        var email: String? = null,
+
+        var logoId: Int? = 1
 ) {
-        constructor(name: String, surname: String, email: String) : this(0, name, surname, email)
+        constructor(name: String, surname: String, email: String, logoId: Int) : this(0, name, surname, email, logoId)
 }

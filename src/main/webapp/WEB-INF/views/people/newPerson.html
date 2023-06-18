@@ -18,6 +18,33 @@
             <label for="email">Enter email</label>
             <input type="text" th:field="*{email}" id="email"/>
             <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+            <div class="logo-selector">
+                <label>Select Logo:</label>
+                <div class="logo-option">
+                    <label for="logo1">
+                        <input type="radio" th:field="*{logoId}" id="logo1" value="1"/>
+                        <img th:src="@{/static/logo/1.png}" width="50" height="50">
+                    </label>
+                </div>
+                <div class="logo-option">
+                    <label for="logo2">
+                        <input type="radio" th:field="*{logoId}" id="logo2" value="2"/>
+                        <img th:src="@{/static/logo/2.png}" width="50" height="50">
+                    </label>
+                </div>
+                <div class="logo-option">
+                    <label for="logo3">
+                        <input type="radio" th:field="*{logoId}" id="logo3" value="3"/>
+                        <img th:src="@{/static/logo/3.png}" width="50" height="50">
+                    </label>
+                </div>
+                <div class="logo-option">
+                    <label for="logo4">
+                        <input type="radio" th:field="*{logoId}" id="logo4" value="4"/>
+                        <img th:src="@{/static/logo/4.png}" width="50" height="50">
+                    </label>
+                </div>
+            </div>
             <button type="submit">Submit</button>
         </form>
         <form th:method="POST" th:action="@{/people/generate}">

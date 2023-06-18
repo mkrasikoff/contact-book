@@ -11,7 +11,9 @@
         <table class="card">
             <tr>
                 <td class="label">Image:</td>
-                <td><div class="user-image"></div></td>
+                <td>
+                    <img th:src="@{'/static/logo/' + ${person.getLogoId()} + '.png'}" alt="User Logo" width="50" height="50">
+                </td>
             </tr>
             <tr>
                 <td class="label">Name:</td>

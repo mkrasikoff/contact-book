@@ -10,7 +10,7 @@
     <div class="content">
         <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}" class="info-form">
             <div class="user-item">
-                <div class="user-image"></div>
+                <img th:src="@{'/static/logo/' + ${person.getLogoId()} + '.png'}" alt="User Logo" width="50" height="50">
                 <div class="info">
                     <p class="info-text" th:text="${person.getName()}">person</p>
                     <p class="info-text" th:text="${person.getSurname()}">person</p>

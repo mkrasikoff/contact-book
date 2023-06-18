@@ -23,7 +23,7 @@ import ru.mkrasikoff.springmvcapp.repos.JdbcPersonRepository
 class JdbcPersonRepositoryIntegrationTest {
 
     companion object {
-        private const val QUERY_INSERT_PERSON = "INSERT INTO person(id, name, surname, email) VALUES(?, ?, ?, ?)"
+        private const val QUERY_INSERT_PERSON = "INSERT INTO person(id, name, surname, email, logoId) VALUES(?, ?, ?, ?, ?)"
         private const val QUERY_DELETE_PERSON = "DELETE FROM person"
         private const val MESSAGE_PERSON_NOT_FOUND = "Person with id 999 not found."
         private const val ID_NONEXISTENT_USER = 999
@@ -41,7 +41,7 @@ class JdbcPersonRepositoryIntegrationTest {
     fun setup() {
         jdbcTemplate.update(QUERY_DELETE_PERSON)
         person = createPerson()
-        jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email)
+        jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email, person.logoId)
     }
 
     @Test
@@ -68,8 +68,8 @@ class JdbcPersonRepositoryIntegrationTest {
 
     @Test
     fun findAll_twoPersonsCreated_returnsAllPersons() {
-        val secondPerson = Person(2, "Eva", "Smith", "eva_smith@email.com")
-        jdbcTemplate.update(QUERY_INSERT_PERSON, secondPerson.id, secondPerson.name, secondPerson.surname, secondPerson.email)
+        val secondPerson = Person(2, "Eva", "Smith", "eva_smith@email.com", 2)
+        jdbcTemplate.update(QUERY_INSERT_PERSON, secondPerson.id, secondPerson.name, secondPerson.surname, secondPerson.email, secondPerson.logoId)
 
         val persons = personRepository.findAll()
 
@@ -80,7 +80,7 @@ class JdbcPersonRepositoryIntegrationTest {
 
     @Test
     fun save_givenValidPerson_returnsSavedPerson() {
-        val newPerson = Person(2, "Eva", "Smith", "eva_smith@email.com")
+        val newPerson = Person(2, "Eva", "Smith", "eva_smith@email.com", 2)
 
         personRepository.save(newPerson)
 
@@ -105,7 +105,7 @@ class JdbcPersonRepositoryIntegrationTest {
 
     @Test
     fun update_givenNonExistingPerson_throwsException() {
-        val nonExistingPerson = Person(ID_NONEXISTENT_USER, "Non", "Existing", "non_existing@email.com")
+        val nonExistingPerson = Person(ID_NONEXISTENT_USER, "Non", "Existing", "non_existing@email.com", 1)
 
         val exception = assertThrows(PersonNotFoundException::class.java) {
             personRepository.update(nonExistingPerson, nonExistingPerson.id)
@@ -137,8 +137,8 @@ class JdbcPersonRepositoryIntegrationTest {
     @Test
     fun search_givenPartOfName_returnsCorrectPerson() {
         val name = "Eva"
-        val person = Person(2, name, "Smith", "eva_smith@email.com")
-        jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email)
+        val person = Person(2, name, "Smith", "eva_smith@email.com", 2)
+        jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email, person.logoId)
 
         val persons = personRepository.search(name)
 
@@ -150,8 +150,8 @@ class JdbcPersonRepositoryIntegrationTest {
     fun search_givenFullName_returnsCorrectPerson() {
         val name = "Eva"
         val surname = "Smith"
-        val person = Person(2, name, surname, "eva_smith@email.com")
-        jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email)
+        val person = Person(2, name, surname, "eva_smith@email.com", 2)
+        jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email, person.logoId)
         val searchQuery = "$name $surname"
 
         val persons = personRepository.search(searchQuery)
@@ -164,8 +164,8 @@ class JdbcPersonRepositoryIntegrationTest {
     fun search_givenPartOfSurname_returnsCorrectPerson() {
         val name = "Eva"
         val surname = "Smith"
-        val person = Person(2, name, surname, "eva_smith@email.com")
-        jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email)
+        val person = Person(2, name, surname, "eva_smith@email.com", 2)
+        jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email, person.logoId)
         val searchQuery = "$name Smi"
 
         val persons = personRepository.search(searchQuery)
@@ -185,7 +185,7 @@ class JdbcPersonRepositoryIntegrationTest {
 
     @Test
     fun deleteAll_givenDatabaseWithPeople_peopleDeleted() {
-        val newPerson = Person(2, "Eva", "Smith", "eva_smith@email.com")
+        val newPerson = Person(2, "Eva", "Smith", "eva_smith@email.com", 2)
         personRepository.save(newPerson)
 
         personRepository.deleteAll()
@@ -195,7 +195,7 @@ class JdbcPersonRepositoryIntegrationTest {
 
     @Test
     fun deleteAll_methodCalledTwoTimes_databaseIsEmptyWithoutException() {
-        val newPerson = Person(2, "Eva", "Smith", "eva_smith@email.com")
+        val newPerson = Person(2, "Eva", "Smith", "eva_smith@email.com", 2)
         personRepository.save(newPerson)
 
         personRepository.deleteAll()
@@ -205,6 +205,6 @@ class JdbcPersonRepositoryIntegrationTest {
     }
 
     private fun createPerson(): Person {
-        return Person(1, "Adam", "Smith", "adam_smith@email.com")
+        return Person(1, "Adam", "Smith", "adam_smith@email.com", 1)
     }
 }

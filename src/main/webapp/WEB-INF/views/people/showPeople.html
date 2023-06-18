@@ -23,7 +23,9 @@
             </thead>
             <tbody>
             <tr th:each="person : ${people}">
-                <td><div class="user-image"></div></td>
+                <td>
+                    <img th:src="@{'/static/logo/' + ${person.getLogoId()} + '.png'}" alt="User Logo" width="50" height="50">
+                </td>
                 <td th:text="${person.getName()}">Name</td>
                 <td th:text="${person.getSurname()}">Surname</td>
                 <td>

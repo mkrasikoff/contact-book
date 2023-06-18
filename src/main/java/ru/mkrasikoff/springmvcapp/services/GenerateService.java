@@ -15,7 +15,12 @@ public class GenerateService {
         String name = faker.name().firstName();
         String surname = faker.name().lastName();
         String email = faker.internet().emailAddress();
+        int logoId = generateRandomLogoId();
 
-        return new Person(name, surname, email);
+        return new Person(name, surname, email, logoId);
+    }
+
+    private int generateRandomLogoId() {
+        return random.nextInt(4) + 1;
     }
 }
