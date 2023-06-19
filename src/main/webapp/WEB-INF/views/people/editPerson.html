@@ -18,11 +18,28 @@
             <label for="email" class="label">Enter email</label>
             <input type="text" th:field="*{email}" id="email" class="input"/>
             <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+            <label>Select profile picture:</label>
+            <input type="hidden" th:field="*{logoId}" id="logoId"/>
+            <div class="logo-selector">
+                <div class="logo-option" onclick="selectLogo(1)">
+                    <img th:src="@{/static/logo/1.png}" width="50" height="50" id="logo1">
+                </div>
+                <div class="logo-option" onclick="selectLogo(2)">
+                    <img th:src="@{/static/logo/2.png}" width="50" height="50" id="logo2">
+                </div>
+                <div class="logo-option" onclick="selectLogo(3)">
+                    <img th:src="@{/static/logo/3.png}" width="50" height="50" id="logo3">
+                </div>
+                <div class="logo-option" onclick="selectLogo(4)">
+                    <img th:src="@{/static/logo/4.png}" width="50" height="50" id="logo4">
+                </div>
+            </div>
             <button type="submit" class="btn">Edit person in DB</button>
         </form>
         <form action="javascript:history.back()" class="actions">
             <button class="btn">Get back</button>
         </form>
     </div>
+    <script th:src="@{/static/js/logo.js}"></script>
 </body>
 </html>

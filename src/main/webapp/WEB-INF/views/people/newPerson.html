@@ -19,30 +19,19 @@
             <input type="text" th:field="*{email}" id="email"/>
             <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
             <div class="logo-selector">
-                <label>Select Logo:</label>
-                <div class="logo-option">
-                    <label for="logo1">
-                        <input type="radio" th:field="*{logoId}" id="logo1" value="1"/>
-                        <img th:src="@{/static/logo/1.png}" width="50" height="50">
-                    </label>
+                <label>Select profile picture:</label>
+                <input type="hidden" th:field="*{logoId}" id="logoId"/>
+                <div class="logo-option" onclick="selectLogo(1)">
+                    <img th:src="@{/static/logo/1.png}" width="50" height="50" id="logo1">
                 </div>
-                <div class="logo-option">
-                    <label for="logo2">
-                        <input type="radio" th:field="*{logoId}" id="logo2" value="2"/>
-                        <img th:src="@{/static/logo/2.png}" width="50" height="50">
-                    </label>
+                <div class="logo-option" onclick="selectLogo(2)">
+                    <img th:src="@{/static/logo/2.png}" width="50" height="50" id="logo2">
                 </div>
-                <div class="logo-option">
-                    <label for="logo3">
-                        <input type="radio" th:field="*{logoId}" id="logo3" value="3"/>
-                        <img th:src="@{/static/logo/3.png}" width="50" height="50">
-                    </label>
+                <div class="logo-option" onclick="selectLogo(3)">
+                    <img th:src="@{/static/logo/3.png}" width="50" height="50" id="logo3">
                 </div>
-                <div class="logo-option">
-                    <label for="logo4">
-                        <input type="radio" th:field="*{logoId}" id="logo4" value="4"/>
-                        <img th:src="@{/static/logo/4.png}" width="50" height="50">
-                    </label>
+                <div class="logo-option" onclick="selectLogo(4)">
+                    <img th:src="@{/static/logo/4.png}" width="50" height="50" id="logo4">
                 </div>
             </div>
             <button type="submit">Submit</button>
@@ -54,5 +43,6 @@
             <button>Get back</button>
         </form>
     </div>
+    <script th:src="@{/static/js/logo.js}"></script>
 </body>
 </html>
