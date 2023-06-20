@@ -47,13 +47,14 @@ class JdbcPersonRepositoryIntegrationTest {
     @Test
     fun findById_givenCorrectPersonId_personReturned() {
         val id = person.id
-        val (id1, name, surname, email) = personRepository.findById(id)
+        val (id1, name, surname, email, logoId) = personRepository.findById(id)
 
         assertAll("Person",
             Executable { assertEquals(id, id1, "ID should match") },
             Executable { assertEquals(person.name, name, "Name should match") },
             Executable { assertEquals(person.surname, surname, "Surname should match") },
-            Executable { assertEquals(person.email, email, "Email should match") }
+            Executable { assertEquals(person.email, email, "Email should match") },
+            Executable { assertEquals(person.logoId, logoId, "LogoId should match") }
         )
     }
 
@@ -86,11 +87,12 @@ class JdbcPersonRepositoryIntegrationTest {
 
         val persons = personRepository.findAll()
         val savedPerson = persons.first {
-            it.name == newPerson.name && it.surname == newPerson.surname && it.email == newPerson.email
+            it.name == newPerson.name && it.surname == newPerson.surname && it.email == newPerson.email && it.logoId == newPerson.logoId
         }
         assertEquals(newPerson.name, savedPerson.name, "Name should match")
         assertEquals(newPerson.surname, savedPerson.surname, "Surname should match")
         assertEquals(newPerson.email, savedPerson.email, "Email should match")
+        assertEquals(newPerson.logoId, savedPerson.logoId, "LogoId should match")
     }
 
     @Test

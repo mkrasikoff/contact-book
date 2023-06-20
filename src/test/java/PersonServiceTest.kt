@@ -19,23 +19,27 @@ class PersonServiceTest {
         const val PERSON_NAME = "Adam"
         const val PERSON_SURNAME = "Smith"
         const val PERSON_EMAIL = "adam_smith@email.com"
+        const val PERSON_LOGO_ID = 1
 
         const val PERSON_ID_2 = 2
         const val PERSON_NAME_2 = "Eva"
         const val PERSON_SURNAME_2 = "Smith"
         const val PERSON_EMAIL_2 = "eva_smith@email.com"
+        const val PERSON_LOGO_ID_2 = 2
 
         var PERSON: Person = Person(
             id = PERSON_ID,
             name = PERSON_NAME,
             surname = PERSON_SURNAME,
-            email = PERSON_EMAIL
+            email = PERSON_EMAIL,
+            logoId = PERSON_LOGO_ID
         )
         var PERSON_2: Person = Person(
-        id = PERSON_ID_2,
-        name = PERSON_NAME_2,
-        surname = PERSON_SURNAME_2,
-        email = PERSON_EMAIL_2
+            id = PERSON_ID_2,
+            name = PERSON_NAME_2,
+            surname = PERSON_SURNAME_2,
+            email = PERSON_EMAIL_2,
+            logoId = PERSON_LOGO_ID_2
         )
 
         var PEOPLE: List<Person> = listOf(PERSON, PERSON_2)
@@ -135,7 +139,8 @@ class PersonServiceTest {
         val updatedPerson = Person(id = 3,
             name = "Patrick",
             surname = "Smith",
-            email = "patrick_smith@email.com"
+            email = "patrick_smith@email.com",
+            logoId = 3
         )
         every {
             personRepository.update(any(), any())
@@ -154,7 +159,8 @@ class PersonServiceTest {
             id = 3,
             name = "Patrick",
             surname = "Smith",
-            email = "patrick_smith@email.com"
+            email = "patrick_smith@email.com",
+            logoId = 3
         )
         every {
             personRepository.update(any(), any())
