@@ -2,7 +2,9 @@ var selectedLogoId = null;
 
 function selectLogo(id) {
     if (selectedLogoId) {
-        document.getElementById('logo' + selectedLogoId).classList.remove('selected');
+        var logo = document.getElementById('logo' + selectedLogoId);
+
+        logo.classList.remove('selected');
     }
 
     document.getElementById('logo' + id).classList.add('selected');

@@ -73,3 +73,12 @@ input[type="text"] {
 .logo-option img.selected {
     border: 3px solid #333;
 }
+
+.user-list {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.user-list td {
+    text-align: center;
+}

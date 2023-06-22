@@ -3,49 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <title>Show person</title>
-    <link rel="stylesheet" th:href="@{/static/css/styles.css}">
+    <style>
+        .card {
+            width: 640px;
+            margin: 0 auto;
+            background-color: #f4f5f7;
+            padding: 0px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+        }
+
+        .left-section {
+            flex: 1.5;
+            padding: 40px;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .gradient1 {
+            background: radial-gradient(circle, rgba(245,183,114,1) 0%, rgba(226,149,58,1) 99%);
+        }
+
+        .gradient2 {
+            background: radial-gradient(circle, rgba(193,118,92,1) 0%, rgba(223,114,72,1) 95%);
+        }
+
+        .gradient3 {
+            background: radial-gradient(circle, rgba(203,214,223,1) 0%, rgba(174,186,194,1) 97%);
+        }
+
+        .gradient4 {
+            background: radial-gradient(circle, rgba(242,243,244,1) 0%, rgba(222,222,222,1) 99%);
+        }
+
+        .right-section {
+            width: 300px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-area img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .name-area {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .email-area {
+            margin-bottom: 20px;
+        }
+
+        .email-area h6 {
+            margin: 0;
+            color: #f6d365;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            background-color: #444;
+        }
+    </style>
 </head>
 <body>
-<h3 class="title">Show person page</h3>
-    <div class="content">
-        <table class="card">
-            <tr>
-                <td class="label">Image:</td>
-                <td>
-                    <img th:src="@{'/static/logo/' + ${person.getLogoId()} + '.png'}" alt="User Logo" width="50" height="50">
-                </td>
-            </tr>
-            <tr>
-                <td class="label">Name:</td>
-                <td th:text="${person.getName()}">person</td>
-            </tr>
-            <tr>
-                <td class="label">Surname:</td>
-                <td th:text="${person.getSurname()}">person</td>
-            </tr>
-            <tr>
-                <td class="label">Email:</td>
-                <td th:text="${person.getEmail()}">person</td>
-            </tr>
-            <tr>
-                <td class="label">ID:</td>
-                <td th:text="${person.getId()}">person</td>
-            </tr>
-        </table>
-        <div class="actions">
-            <form th:method="GET" th:action="@{/people}">
-                <button class="btn">People list</button>
-            </form>
-            <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
-                <button class="btn">Edit</button>
-            </form>
-            <form th:method="GET" th:action="@{/people/{id}/delete(id=${person.getId()})}">
-                <button class="btn">Delete</button>
+<section>
+    <div class="card">
+        <div th:class="@{'left-section' + ' gradient' + ${person.getLogoId()}}">
+            <div class="logo-area">
+                <img th:src="@{'/static/logo/' + ${person.getLogoId()} + '.png'}" alt="User Logo">
+            </div>
+            <div class="name-area">
+                <h3 th:text="${person.getName() + ' ' + person.getSurname()}"></h3>
+            </div>
+        </div>
+        <div class="right-section">
+            <div class="email-area">
+                <h6>Email:</h6>
+                <p th:text="${person.getEmail()}"></p>
+            </div>
+            <div class="actions">
+                <form th:method="GET" th:action="@{/people}">
+                    <button class="btn">People List</button>
+                </form>
+                <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+                    <button class="btn">Edit</button>
+                </form>
+                <form th:method="GET" th:action="@{/people/{id}/delete(id=${person.getId()})}">
+                    <button class="btn">Delete</button>
+                </form>
+            </div>
+            <form th:method="GET" th:action="@{/}">
+                <button class="btn">Home</button>
             </form>
         </div>
-        <form action="/spring-mvc-app">
-            <button>Main page</button>
-        </form>
     </div>
+</section>
 </body>
 </html>
