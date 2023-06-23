@@ -13,8 +13,8 @@ import java.util.List;
 @Repository
 public class JdbcPersonRepository implements PersonRepository {
 
-    private static final String QUERY_SHOW_PEOPLE = "SELECT * FROM person";
-    private static final String QUERY_SHOW_PEOPLE_PAGE = "SELECT * FROM person LIMIT ?, ?";
+    private static final String QUERY_SHOW_PEOPLE_ALL = "SELECT * FROM person";
+    private static final String QUERY_SHOW_PEOPLE_LIMIT = "SELECT * FROM person ORDER BY id LIMIT ?, ?";
     private static final String QUERY_COUNT_PEOPLE = "SELECT COUNT(*) FROM person";
     private static final String QUERY_SHOW_PERSON = "SELECT * FROM person WHERE id = ?";
     private static final String QUERY_SAVE_PERSON = "INSERT INTO person(name, surname, email, logoId) VALUES(?, ?, ?, ?)";
@@ -48,7 +48,18 @@ public class JdbcPersonRepository implements PersonRepository {
 
     @Override
     public List<Person> findAll() {
-        return jdbcTemplate.query(QUERY_SHOW_PEOPLE, new BeanPropertyRowMapper<>(Person.class));
+        return jdbcTemplate.query(QUERY_SHOW_PEOPLE_ALL, new BeanPropertyRowMapper<>(Person.class));
+    }
+
+    @Override
+    public List<Person> findSpecificPeoplePage(int page, int size) {
+        int start = (page - 1) * size;
+        return jdbcTemplate.query(QUERY_SHOW_PEOPLE_LIMIT, new BeanPropertyRowMapper<>(Person.class), start, size);
+    }
+
+    @Override
+    public int count() {
+        return jdbcTemplate.queryForObject(QUERY_COUNT_PEOPLE, Integer.class);
     }
 
     @Override
@@ -102,16 +113,5 @@ public class JdbcPersonRepository implements PersonRepository {
     public List<Person> search(String query) {
         String searchQuery = "%" + query + "%";
         return jdbcTemplate.query(QUERY_SEARCH_PERSON, new BeanPropertyRowMapper<>(Person.class), searchQuery);
-    }
-
-    @Override
-    public List<Person> findSpecificPeoplePage(int page, int size) {
-        int start = (page - 1) * size;
-        return jdbcTemplate.query(QUERY_SHOW_PEOPLE_PAGE, new BeanPropertyRowMapper<>(Person.class), start, size);
-    }
-
-    @Override
-    public int count() {
-        return jdbcTemplate.queryForObject(QUERY_COUNT_PEOPLE, Integer.class);
     }
 }

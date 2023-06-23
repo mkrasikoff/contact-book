@@ -20,8 +20,14 @@ public class PeopleController {
     }
 
     /**
-     * Display a list of all people.
+     * Display a paginated list of all people.
      *
+     * This endpoint handles GET requests to show a page of people. The number of people shown per page
+     * and the page number can be specified with parameters. If these parameters are not provided,
+     * they default to 1 for the page number and 10 for the number of people per page.
+     *
+     * @param page An integer specifying the page number. Defaults to 1 if not provided.
+     * @param size An integer specifying the number of people to display per page. Defaults to 10 if not provided.
      * @param model The Model object to bind data to the view.
      * @return The view to display.
      */
@@ -29,7 +35,7 @@ public class PeopleController {
     public String getPeople(@RequestParam(defaultValue = "1") int page,
                             @RequestParam(defaultValue = "10") int size,
                             Model model) {
-        List<Person> people = personService.showPage(page, size);
+        List<Person> people = personService.showPeoplePage(page, size);
         model.addAttribute("people", people);
 
         int count = personService.countPeople();

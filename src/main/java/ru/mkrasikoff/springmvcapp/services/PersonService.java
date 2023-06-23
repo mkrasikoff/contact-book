@@ -20,6 +20,14 @@ public class PersonService {
         return personRepository.findAll();
     }
 
+    public List<Person> showPeoplePage(int page, int size) {
+        return personRepository.findSpecificPeoplePage(page, size);
+    }
+
+    public int countPeople() {
+        return personRepository.count();
+    }
+
     public Person showPerson(int id) {
         return personRepository.findById(id);
     }
@@ -48,13 +56,5 @@ public class PersonService {
         for (int i = 1; i <= 10; i++) {
             savePerson(generateService.generateRandomPerson());
         }
-    }
-
-    public List<Person> showPage(int page, int size) {
-        return personRepository.findSpecificPeoplePage(page, size);
-    }
-
-    public int countPeople() {
-        return personRepository.count();
     }
 }

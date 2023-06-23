@@ -24,7 +24,7 @@ class JdbcPersonRepositoryIntegrationTest {
 
     companion object {
         private const val QUERY_INSERT_PERSON = "INSERT INTO person(id, name, surname, email, logoId) VALUES(?, ?, ?, ?, ?)"
-        private const val QUERY_DELETE_PERSON = "DELETE FROM person"
+        private const val QUERY_DELETE_PEOPLE = "DELETE FROM person"
         private const val MESSAGE_PERSON_NOT_FOUND = "Person with id 999 not found."
         private const val ID_NONEXISTENT_USER = 999
     }
@@ -39,7 +39,7 @@ class JdbcPersonRepositoryIntegrationTest {
 
     @BeforeEach
     fun setup() {
-        jdbcTemplate.update(QUERY_DELETE_PERSON)
+        jdbcTemplate.update(QUERY_DELETE_PEOPLE)
         person = createPerson()
         jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email, person.logoId)
     }
@@ -77,6 +77,33 @@ class JdbcPersonRepositoryIntegrationTest {
         assertEquals(2, persons.size)
         assertTrue(persons.contains(person))
         assertTrue(persons.contains(secondPerson))
+    }
+
+    @Test
+    fun findSpecificPeoplePage_databaseWithMoreThanTenUsersGiven_returnsOnlyPartOfThem() {
+        jdbcTemplate.update(QUERY_DELETE_PEOPLE)
+
+        for (i in 1..12) {
+            val person = Person(id = i, name = "Person$i", surname = "Surname$i", email = "person$i@email.com", logoId = i)
+            jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email, person.logoId)
+        }
+
+        val page1 = personRepository.findSpecificPeoplePage(1, 10)
+        val page2 = personRepository.findSpecificPeoplePage(2, 10)
+
+        assertAll("Pagination",
+            Executable { assertEquals(10, page1.size, "Page 1 should have 10 people") },
+            Executable { assertEquals(2, page2.size, "Page 2 should have 2 people") },
+            Executable { assertEquals("Person11", page2[0].name, "First person on Page 2 should be 'Person11'") },
+            Executable { assertEquals("Person12", page2[1].name, "Second person on Page 2 should be 'Person12'") }
+        )
+    }
+
+    @Test
+    fun count_whenPeopleInDatabase_returnsCorrectCount() {
+        val personCount = personRepository.count()
+
+        assertEquals(1, personCount, "Should return the correct count of people in database")
     }
 
     @Test

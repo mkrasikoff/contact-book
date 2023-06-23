@@ -135,6 +135,67 @@ class PersonServiceTest {
     }
 
     @Test
+    fun showPeoplePage_peopleExist_peopleReturned() {
+        val page = 1
+        val size = 10
+        every {
+            personRepository.findSpecificPeoplePage(page, size)
+        } returns PEOPLE
+
+        val foundPeople = personService.showPeoplePage(page, size)
+
+        verify {
+            personRepository.findSpecificPeoplePage(page, size)
+        }
+        assertEquals(PEOPLE, foundPeople)
+    }
+
+    @Test
+    fun showPeoplePage_peopleDoesNotExist_emptyListReturned() {
+        val page = 1
+        val size = 10
+        every {
+            personRepository.findSpecificPeoplePage(page, size)
+        } returns listOf()
+
+        val foundPeople = personService.showPeoplePage(page, size)
+
+        verify {
+            personRepository.findSpecificPeoplePage(page, size)
+        }
+        assertEquals(listOf<Person>(), foundPeople)
+    }
+
+    @Test
+    fun countPeople_peopleExist_correctCountReturned() {
+        val count = PEOPLE.size
+        every {
+            personRepository.count()
+        } returns count
+
+        val peopleCount = personService.countPeople()
+
+        verify {
+            personRepository.count()
+        }
+        assertEquals(count, peopleCount)
+    }
+
+    @Test
+    fun countPeople_peopleDoesNotExist_zeroReturned() {
+        every {
+            personRepository.count()
+        } returns 0
+
+        val peopleCount = personService.countPeople()
+
+        verify {
+            personRepository.count()
+        }
+        assertEquals(0, peopleCount)
+    }
+
+    @Test
     fun updatePerson_personInfoIsGiven_personUpdated() {
         val updatedPerson = Person(id = 3,
             name = "Patrick",
@@ -221,5 +282,35 @@ class PersonServiceTest {
         verify {
             personRepository.deleteAll()
         }
+    }
+
+    @Test
+    fun search_peopleExistWithQuery_peopleReturned() {
+        val query = "Smith"
+        every {
+            personRepository.search(query)
+        } returns PEOPLE
+
+        val foundPeople = personService.search(query)
+
+        verify {
+            personRepository.search(query)
+        }
+        assertEquals(PEOPLE, foundPeople)
+    }
+
+    @Test
+    fun search_peopleDoesNotExistWithQuery_emptyListReturned() {
+        val query = "Patrick"
+        every {
+            personRepository.search(query)
+        } returns listOf()
+
+        val foundPeople = personService.search(query)
+
+        verify {
+            personRepository.search(query)
+        }
+        assertEquals(listOf<Person>(), foundPeople)
     }
 }
