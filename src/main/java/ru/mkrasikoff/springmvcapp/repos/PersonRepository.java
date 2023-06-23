@@ -12,4 +12,6 @@ public interface PersonRepository {
     void deleteById(int id);
     void deleteAll();
     List<Person> search(String query);
+    List<Person> findSpecificPeoplePage(int page, int size);
+    int count();
 }

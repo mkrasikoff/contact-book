@@ -26,8 +26,18 @@ public class PeopleController {
      * @return The view to display.
      */
     @GetMapping
-    public String getPeople(Model model) {
-        model.addAttribute("people", personService.showPeople());
+    public String getPeople(@RequestParam(defaultValue = "1") int page,
+                            @RequestParam(defaultValue = "10") int size,
+                            Model model) {
+        List<Person> people = personService.showPage(page, size);
+        model.addAttribute("people", people);
+
+        int count = personService.countPeople();
+        int pages = (count + size - 1) / size;
+
+        model.addAttribute("pages", pages);
+        model.addAttribute("page", page);
+
         return "people/showPeople";
     }
 

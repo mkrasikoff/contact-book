@@ -49,4 +49,12 @@ public class PersonService {
             savePerson(generateService.generateRandomPerson());
         }
     }
+
+    public List<Person> showPage(int page, int size) {
+        return personRepository.findSpecificPeoplePage(page, size);
+    }
+
+    public int countPeople() {
+        return personRepository.count();
+    }
 }
