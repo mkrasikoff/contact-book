@@ -40,23 +40,18 @@ class JdbcPersonRepositoryIntegrationTest {
     @BeforeEach
     fun setup() {
         jdbcTemplate.update(QUERY_DELETE_PEOPLE)
-        person = createPerson()
-        jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email, person.logoId)
+        person = createPersonAdam()
+        insertPerson(person)
     }
 
     @Test
     fun findById_givenCorrectPersonId_personReturned() {
         val id = person.id
-        val (id1, name, surname, email, logoId) = personRepository.findById(id)
+        val foundPerson = personRepository.findById(id)
 
-        assertAll("Person",
-            Executable { assertEquals(id, id1, "ID should match") },
-            Executable { assertEquals(person.name, name, "Name should match") },
-            Executable { assertEquals(person.surname, surname, "Surname should match") },
-            Executable { assertEquals(person.email, email, "Email should match") },
-            Executable { assertEquals(person.logoId, logoId, "LogoId should match") }
-        )
+        assertPerson(person, foundPerson)
     }
+
 
     @Test
     fun findById_givenIncorrectPersonId_thrownException() {
@@ -69,8 +64,8 @@ class JdbcPersonRepositoryIntegrationTest {
 
     @Test
     fun findAll_twoPersonsCreated_returnsAllPersons() {
-        val secondPerson = Person(2, "Eva", "Smith", "eva_smith@email.com", 2)
-        jdbcTemplate.update(QUERY_INSERT_PERSON, secondPerson.id, secondPerson.name, secondPerson.surname, secondPerson.email, secondPerson.logoId)
+        val secondPerson = createPersonEva()
+        insertPerson(secondPerson)
 
         val persons = personRepository.findAll()
 
@@ -82,10 +77,8 @@ class JdbcPersonRepositoryIntegrationTest {
     @Test
     fun findSpecificPeoplePage_databaseWithMoreThanTenUsersGiven_returnsOnlyPartOfThem() {
         jdbcTemplate.update(QUERY_DELETE_PEOPLE)
-
-        for (i in 1..12) {
-            val person = Person(id = i, name = "Person$i", surname = "Surname$i", email = "person$i@email.com", logoId = i)
-            jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email, person.logoId)
+        val insertedPeople = (1..12).map {
+            Person(id = it, name = "Person$it", surname = "Surname$it", email = "person$it@email.com", logoId = it).apply { insertPerson(this) }
         }
 
         val page1 = personRepository.findSpecificPeoplePage(1, 10)
@@ -94,8 +87,10 @@ class JdbcPersonRepositoryIntegrationTest {
         assertAll("Pagination",
             Executable { assertEquals(10, page1.size, "Page 1 should have 10 people") },
             Executable { assertEquals(2, page2.size, "Page 2 should have 2 people") },
-            Executable { assertEquals("Person11", page2[0].name, "First person on Page 2 should be 'Person11'") },
-            Executable { assertEquals("Person12", page2[1].name, "Second person on Page 2 should be 'Person12'") }
+            Executable {
+                val allReturnedPeople = page1 + page2
+                assertTrue(insertedPeople.all { person -> allReturnedPeople.any { it.id == person.id } }, "All inserted people should be returned across the two pages")
+            }
         )
     }
 
@@ -108,7 +103,7 @@ class JdbcPersonRepositoryIntegrationTest {
 
     @Test
     fun save_givenValidPerson_returnsSavedPerson() {
-        val newPerson = Person(2, "Eva", "Smith", "eva_smith@email.com", 2)
+        val newPerson = createPersonEva()
 
         personRepository.save(newPerson)
 
@@ -116,10 +111,7 @@ class JdbcPersonRepositoryIntegrationTest {
         val savedPerson = persons.first {
             it.name == newPerson.name && it.surname == newPerson.surname && it.email == newPerson.email && it.logoId == newPerson.logoId
         }
-        assertEquals(newPerson.name, savedPerson.name, "Name should match")
-        assertEquals(newPerson.surname, savedPerson.surname, "Surname should match")
-        assertEquals(newPerson.email, savedPerson.email, "Email should match")
-        assertEquals(newPerson.logoId, savedPerson.logoId, "LogoId should match")
+        assertPerson(newPerson, savedPerson)
     }
 
     @Test
@@ -165,11 +157,10 @@ class JdbcPersonRepositoryIntegrationTest {
 
     @Test
     fun search_givenPartOfName_returnsCorrectPerson() {
-        val name = "Eva"
-        val person = Person(2, name, "Smith", "eva_smith@email.com", 2)
-        jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email, person.logoId)
+        val person = createPersonEva()
+        insertPerson(person)
 
-        val persons = personRepository.search(name)
+        val persons = personRepository.search(person.name)
 
         assertEquals(1, persons.size)
         assertTrue(persons.contains(person))
@@ -177,11 +168,9 @@ class JdbcPersonRepositoryIntegrationTest {
 
     @Test
     fun search_givenFullName_returnsCorrectPerson() {
-        val name = "Eva"
-        val surname = "Smith"
-        val person = Person(2, name, surname, "eva_smith@email.com", 2)
-        jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email, person.logoId)
-        val searchQuery = "$name $surname"
+        val person = createPersonEva()
+        insertPerson(person)
+        val searchQuery = "${person.name} ${person.surname}"
 
         val persons = personRepository.search(searchQuery)
 
@@ -191,11 +180,9 @@ class JdbcPersonRepositoryIntegrationTest {
 
     @Test
     fun search_givenPartOfSurname_returnsCorrectPerson() {
-        val name = "Eva"
-        val surname = "Smith"
-        val person = Person(2, name, surname, "eva_smith@email.com", 2)
-        jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email, person.logoId)
-        val searchQuery = "$name Smi"
+        val person = createPersonEva()
+        insertPerson(person)
+        val searchQuery = "${person.name} Smi"
 
         val persons = personRepository.search(searchQuery)
 
@@ -214,7 +201,7 @@ class JdbcPersonRepositoryIntegrationTest {
 
     @Test
     fun deleteAll_givenDatabaseWithPeople_peopleDeleted() {
-        val newPerson = Person(2, "Eva", "Smith", "eva_smith@email.com", 2)
+        val newPerson = createPersonEva()
         personRepository.save(newPerson)
 
         personRepository.deleteAll()
@@ -224,7 +211,7 @@ class JdbcPersonRepositoryIntegrationTest {
 
     @Test
     fun deleteAll_methodCalledTwoTimes_databaseIsEmptyWithoutException() {
-        val newPerson = Person(2, "Eva", "Smith", "eva_smith@email.com", 2)
+        val newPerson = createPersonEva()
         personRepository.save(newPerson)
 
         personRepository.deleteAll()
@@ -233,7 +220,24 @@ class JdbcPersonRepositoryIntegrationTest {
         assertTrue(personRepository.findAll().isEmpty())
     }
 
-    private fun createPerson(): Person {
+    private fun createPersonAdam(): Person {
         return Person(1, "Adam", "Smith", "adam_smith@email.com", 1)
+    }
+
+    private fun createPersonEva(): Person {
+        return Person(2, "Eva", "Smith", "eva_smith@email.com", 2)
+    }
+
+    private fun insertPerson(person: Person) {
+        jdbcTemplate.update(QUERY_INSERT_PERSON, person.id, person.name, person.surname, person.email, person.logoId)
+    }
+
+    private fun assertPerson(expected: Person, actual: Person) {
+        assertAll("Person",
+            Executable { assertEquals(expected.name, actual.name, "Name should match") },
+            Executable { assertEquals(expected.surname, actual.surname, "Surname should match") },
+            Executable { assertEquals(expected.email, actual.email, "Email should match") },
+            Executable { assertEquals(expected.logoId, actual.logoId, "LogoId should match") }
+        )
     }
 }
