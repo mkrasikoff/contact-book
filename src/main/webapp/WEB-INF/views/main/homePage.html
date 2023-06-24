@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home page</title>
+    <link rel="icon" type="image/png" th:href="@{/static/png/app_icon.png}">
+    <link rel="stylesheet" th:href="@{/static/css/styles_homePage.css}">
+</head>
+<body>
+    <div class="card">
+        <div class="header-area">
+            <h3>Welcome to Home page!</h3>
+        </div>
+        <div class="actions">
+            <form th:method="GET" th:action="@{/people}">
+                <button class="btn">Show people</button>
+            </form>
+            <form th:method="GET" th:action="@{/people/create}">
+                <button class="btn">New person</button>
+            </form>
+            <form th:method="GET" th:action="@{/people/edit}">
+                <button class="btn">Edit person</button>
+            </form>
+            <form th:method="GET" th:action="@{/people/delete}">
+                <button class="btn">Delete person</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
