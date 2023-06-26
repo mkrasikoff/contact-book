@@ -3,45 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <title>New Person</title>
-    <link rel="stylesheet" th:href="@{/static/css/styles.css}">
+    <link rel="icon" type="image/png" th:href="@{/static/png/app_icon.png}">
+    <link rel="stylesheet" th:href="@{/static/css/styles_newPerson.css}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap">
 </head>
 <body>
-    <h3>Add person page</h3>
-    <div class="content">
-        <form th:method="POST" th:action="@{/people/}" th:object="${person}">
-            <label for="name">Enter name</label>
-            <input type="text" th:field="*{name}" id="name"/>
-            <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
-            <label for="surname">Enter surname</label>
-            <input type="text" th:field="*{surname}" id="surname"/>
-            <div style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname error</div>
-            <label for="email">Enter email</label>
-            <input type="text" th:field="*{email}" id="email"/>
-            <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
-            <div class="logo-selector">
-                <label>Select profile picture:</label>
-                <input type="hidden" th:field="*{logoId}" id="logoId"/>
-                <div class="logo-option" onclick="selectLogo(1)">
-                    <img th:src="@{/static/logo/1.png}" width="50" height="50" id="logo1">
-                </div>
-                <div class="logo-option" onclick="selectLogo(2)">
-                    <img th:src="@{/static/logo/2.png}" width="50" height="50" id="logo2">
-                </div>
-                <div class="logo-option" onclick="selectLogo(3)">
-                    <img th:src="@{/static/logo/3.png}" width="50" height="50" id="logo3">
-                </div>
-                <div class="logo-option" onclick="selectLogo(4)">
-                    <img th:src="@{/static/logo/4.png}" width="50" height="50" id="logo4">
-                </div>
+    <div class="card">
+        <div class="left-section">
+            <div class="logo-area">
+                <img id="selectedLogo" th:src="@{/static/logo/1.png}">
             </div>
-            <button type="submit">Submit</button>
-        </form>
-        <form th:method="POST" th:action="@{/people/generate}">
-            <button type="submit">Generate people</button>
-        </form>
-        <form action="javascript:history.back()">
-            <button>Get back</button>
-        </form>
+        </div>
+        <div class="right-section">
+            <form th:method="POST" th:action="@{/people/}" th:object="${person}">
+                <div class="field">
+                    <label for="name">Name</label>
+                    <input type="text" th:field="*{name}" id="name"/>
+                    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+                </div>
+                <div class="field">
+                    <label for="surname">Surname</label>
+                    <input type="text" th:field="*{surname}" id="surname"/>
+                    <div style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname error</div>
+                </div>
+                <div class="field">
+                    <label for="email">Email</label>
+                    <input type="text" th:field="*{email}" id="email"/>
+                    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+                </div>
+                <div class="logo-selector">
+                    <label>Select profile picture</label>
+                    <input type="hidden" th:field="*{logoId}" id="logoId"/>
+                    <div class="logo-option" onclick="selectLogo(1)">
+                        <img th:src="@{/static/logo/1.png}" width="50" height="50" id="logo1">
+                    </div>
+                    <div class="logo-option" onclick="selectLogo(2)">
+                        <img th:src="@{/static/logo/2.png}" width="50" height="50" id="logo2">
+                    </div>
+                    <div class="logo-option" onclick="selectLogo(3)">
+                        <img th:src="@{/static/logo/3.png}" width="50" height="50" id="logo3">
+                    </div>
+                    <div class="logo-option" onclick="selectLogo(4)">
+                        <img th:src="@{/static/logo/4.png}" width="50" height="50" id="logo4">
+                    </div>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+            <form th:method="POST" th:action="@{/people/generate}">
+                <button type="submit">Generate people</button>
+            </form>
+            <form action="javascript:history.back()">
+                <button>Get back</button>
+            </form>
+        </div>
     </div>
     <script th:src="@{/static/js/logo.js}"></script>
 </body>

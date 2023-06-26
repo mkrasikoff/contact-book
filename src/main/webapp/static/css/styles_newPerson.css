@@ -1,0 +1,125 @@
+* {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14.4px;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #fff;
+}
+
+.card {
+    max-width: 640px;
+    max-height: 90vh;
+    background-color: #f4f5f7;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin: 0 auto;
+    overflow: auto;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+button, input[type="submit"].btn {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+button:hover, input[type="submit"].btn:hover {
+    background-color: #444;
+}
+
+.logo-selector {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.logo-option {
+    cursor: pointer;
+}
+
+.logo-option img {
+    border: 3px solid transparent;
+    transition: border 0.3s;
+}
+
+.logo-option img.selected {
+    border: 3px solid #333;
+}
+
+.field {
+    margin-bottom: 10px;
+}
+
+.field label {
+    font-size: 14.4px;
+    color: #333;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.field input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background: #e1e1e1;
+    margin-top: 5px;
+    font-size: 14.4px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.field .error {
+    color: red;
+    margin-top: 5px;
+}
+
+.left-section {
+    flex: 1.5;
+    padding: 40px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-section {
+    width: 300px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.logo-area img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+}
