@@ -1,10 +1,23 @@
-# Spring MVC Application with Kotlin
+# Contact Book: A Spring MVC Application (Java / Kotlin)
 
-This is a simple Spring MVC application that uses a MySQL database. The purpose of this application is to practice creating MVC systems without using Spring Boot. The application and database are containerized using Docker and managed with Docker Compose. This application is written in Java and Kotlin, and over time, more functionality will be migrated to Kotlin.
+![Application Screenshot](src%2Fmain%2Fwebapp%2Fstatic%2Fpng%2Fapplication_screenshot.png)
+
+## Overview
+
+The Contact Book is a small application using the Spring MVC framework. Designed as a practical exercise to explore the interaction of various technologies, the application uses a combination of Java, Kotlin, SQL, CSS, HTML, JavaScript, Spring 5.3.10, MySQL databases, Docker and Tomcat to provide comprehensive user interaction.
+## Features
+
+The application supports the following features:
+
+1. Add a new user or generate 10 random profiles. Each user profile contains unique data such as first name, last name, email address and logo.
+2. Unlimited user additions, with all data securely stored in a database.
+3. Individual or bulk deletion of user profiles.
+4. Ability to modify user data.
+5. Access to individual user profiles via a comprehensive people list. For large user bases, a handy search bar enables swift profile search.
 
 ## Prerequisites
 
-Ensure that you have the following installed on your system:
+Before starting with the application, ensure you have the following tools installed on your system:
 
 1. [Java 11](https://adoptopenjdk.net/)
 2. [Kotlin](https://kotlinlang.org/docs/command-line.html)
@@ -12,14 +25,16 @@ Ensure that you have the following installed on your system:
 4. [Docker](https://docs.docker.com/get-docker/)
 5. [Docker Compose](https://docs.docker.com/compose/install/)
 
-## Steps to run the application
+## Getting Started
+
+To set up and run the application, follow these steps:
 
 1. Clone the repository to your local machine.
     ```bash
     git clone https://github.com/mkrasikoff/spring-mvc-app.git
     ```
 
-2. Navigate into the project directory.
+2. Change into the project directory.
     ```bash
     cd spring-mvc-app
     ```
@@ -29,16 +44,16 @@ Ensure that you have the following installed on your system:
     mvn clean install
     ```
 
-4. Build and run the Docker containers using Docker Compose.
+4. Build and run the Docker containers with Docker Compose.
     ```bash
     docker-compose up --build -d
     ```
 
-5. Access the application by opening `http://localhost:8080/spring-mvc-app` in a web browser.
+5. Access the application by opening `http://localhost:8080/spring-mvc-app` in your web browser.
 
-## Stopping the application
+## Termination
 
-To stop the application and the database, run the following command:
+To halt the application and the associated database, execute the following command:
 
 ```bash
 docker-compose down
