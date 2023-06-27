@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.mkrasikoff.springmvcapp.exceptions.PersonNotFoundException;
 import ru.mkrasikoff.springmvcapp.models.Person;
 import ru.mkrasikoff.springmvcapp.services.PersonService;
 import javax.validation.Valid;
@@ -53,10 +54,17 @@ public class PeopleController {
      * @param id The ID of the person to display.
      * @param model The Model object to bind data to the view.
      * @return The view to display.
+     *
+     * If the person with the provided ID does not exist,
+     * it catches a PersonNotFoundException and redirects to the people list page.
      */
     @GetMapping("/{id}")
     public String getPerson(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", personService.showPerson(id));
+        try {
+            model.addAttribute("person", personService.showPerson(id));
+        } catch (PersonNotFoundException exc) {
+            return "redirect:/people";
+        }
         return "people/showPerson";
     }
 
@@ -104,10 +112,17 @@ public class PeopleController {
      * @param id The ID of the person to update.
      * @param model The Model object to bind data to the view.
      * @return The view to display.
+     *
+     * If the person with the provided ID does not exist,
+     * it catches a PersonNotFoundException and redirects to the people list page.
      */
     @GetMapping("/{id}/edit")
     public String editOne(Model model, @PathVariable("id") int id) {
-        model.addAttribute("person", personService.showPerson(id));
+        try {
+            model.addAttribute("person", personService.showPerson(id));
+        } catch (PersonNotFoundException exc) {
+            return "redirect:/people";
+        }
         return "people/editPerson";
     }
 
@@ -118,13 +133,20 @@ public class PeopleController {
      * @param bindingResult The result of the form binding.
      * @param id The ID of the person to update.
      * @return The view to display.
+     *
+     * If the person with the provided ID does not exist,
+     * it catches a PersonNotFoundException and redirects to the people list page.
      */
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("person") @Valid Person person,
                                BindingResult bindingResult,
                                @PathVariable("id") int id) {
         if(bindingResult.hasErrors()) return "people/editPerson";
-        personService.updatePerson(person, id);
+        try {
+            personService.updatePerson(person, id);
+        } catch (PersonNotFoundException exc) {
+            return "redirect:/people";
+        }
         return "redirect:/people";
     }
 
@@ -145,10 +167,17 @@ public class PeopleController {
      *
      * @param model The Model object to bind data to the view.
      * @return The view to display.
+     *
+     * If the person with the provided ID does not exist,
+     * it catches a PersonNotFoundException and redirects to the people list page.
      */
     @GetMapping("/{id}/delete")
     public String getDeletablePerson(Model model, @PathVariable("id") int id) {
-        model.addAttribute("person",personService.showPerson(id));
+        try {
+            model.addAttribute("person",personService.showPerson(id));
+        } catch (PersonNotFoundException exc) {
+            return "redirect:/people";
+        }
         return "people/deletePersonConfirm";
     }
 
@@ -157,10 +186,17 @@ public class PeopleController {
      *
      * @param id The ID of the person to delete.
      * @return The view to display.
+     *
+     * If the person with the provided ID does not exist,
+     * it catches a PersonNotFoundException and redirects to the people list page.
      */
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
-        personService.deletePerson(id);
+        try {
+            personService.deletePerson(id);
+        } catch (PersonNotFoundException exc) {
+            return "redirect:/people";
+        }
         return "redirect:/people";
     }
 
