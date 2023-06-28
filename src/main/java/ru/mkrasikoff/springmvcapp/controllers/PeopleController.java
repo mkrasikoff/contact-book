@@ -167,14 +167,30 @@ public class PeopleController {
     }
 
     /**
-     * Display the form for all deletable people.
+     * Display a paginated list of all people for deleting.
      *
+     * This endpoint handles GET requests to show a page of people for deleting. The number of people shown per page
+     * and the page number can be specified with parameters. If these parameters are not provided,
+     * they default to 1 for the page number and 10 for the number of people per page.
+     *
+     * @param page An integer specifying the page number. Defaults to 1 if not provided.
+     * @param size An integer specifying the number of people to display per page. Defaults to 10 if not provided.
      * @param model The Model object to bind data to the view.
      * @return The view to display.
      */
     @GetMapping("/delete")
-    public String getDeletablePeople(Model model) {
-        model.addAttribute("people", personService.showPeople());
+    public String getDeletablePeople(@RequestParam(defaultValue = "1") int page,
+                                     @RequestParam(defaultValue = "10") int size,
+                                     Model model) {
+        List<Person> people = personService.showPeoplePage(page, size);
+        model.addAttribute("people", people);
+
+        int count = personService.countPeople();
+        int pages = (count + size - 1) / size;
+
+        model.addAttribute("pages", pages);
+        model.addAttribute("page", page);
+
         return "people/deletePeople";
     }
 
@@ -220,7 +236,7 @@ public class PeopleController {
      * Display people based on a search query.
      *
      * @param query The search query.
-     * @param mode A string specifying the mode (edit or show). Defaults to show if not provided.
+     * @param mode A string specifying the mode (show / edit / delete). Defaults to show if not provided.
      * @param model The Model object to bind data to the view.
      * @return The view to display.
      */
@@ -233,7 +249,11 @@ public class PeopleController {
 
         if(mode.equals("edit")) {
             return "people/editPeople";
-        } else {
+        }
+        else if(mode.equals("delete")) {
+            return "people/deletePeople";
+        }
+        else {
             return "people/showPeople";
         }
     }
