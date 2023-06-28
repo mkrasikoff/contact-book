@@ -95,14 +95,30 @@ public class PeopleController {
     }
 
     /**
-     * Display the form for updating all people.
+     * Display a paginated list of all people for updating.
      *
+     * This endpoint handles GET requests to show a page of people for updating. The number of people shown per page
+     * and the page number can be specified with parameters. If these parameters are not provided,
+     * they default to 1 for the page number and 10 for the number of people per page.
+     *
+     * @param page An integer specifying the page number. Defaults to 1 if not provided.
+     * @param size An integer specifying the number of people to display per page. Defaults to 10 if not provided.
      * @param model The Model object to bind data to the view.
      * @return The view to display.
      */
     @GetMapping("/edit")
-    public String editAll(Model model) {
-        model.addAttribute("people", personService.showPeople());
+    public String editAll(@RequestParam(defaultValue = "1") int page,
+                          @RequestParam(defaultValue = "10") int size,
+                          Model model) {
+        List<Person> people = personService.showPeoplePage(page, size);
+        model.addAttribute("people", people);
+
+        int count = personService.countPeople();
+        int pages = (count + size - 1) / size;
+
+        model.addAttribute("pages", pages);
+        model.addAttribute("page", page);
+
         return "people/editPeople";
     }
 
@@ -204,14 +220,22 @@ public class PeopleController {
      * Display people based on a search query.
      *
      * @param query The search query.
+     * @param mode A string specifying the mode (edit or show). Defaults to show if not provided.
      * @param model The Model object to bind data to the view.
      * @return The view to display.
      */
     @GetMapping("/search")
-    public String search(@RequestParam String query, Model model) {
+    public String search(@RequestParam String query,
+                         @RequestParam(defaultValue = "show") String mode,
+                         Model model) {
         List<Person> persons = personService.search(query);
         model.addAttribute("people", persons);
-        return "people/showPeople";
+
+        if(mode.equals("edit")) {
+            return "people/editPeople";
+        } else {
+            return "people/showPeople";
+        }
     }
 
     /**

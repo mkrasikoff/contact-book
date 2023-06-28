@@ -2,19 +2,26 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Select person to edit</title>
-    <link rel="stylesheet" th:href="@{/static/css/styles.css}">
+    <title>People list</title>
+    <link rel="icon" type="image/png" th:href="@{/static/png/app_icon.png}">
+    <link rel="stylesheet" th:href="@{/static/css/styles_peoplePage.css}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap">
 </head>
 <body>
-    <h3>Select person to edit</h3>
-    <div class="content">
+    <div class="card">
+        <div id="search-form">
+            <form th:method="GET" th:action="@{/people/search}">
+                <input type="text" name="query" placeholder="Search..." class="search-input">
+                <input type="hidden" name="mode" value="edit">
+                <input type="submit" value="Search" class="btn">
+            </form>
+        </div>
         <table class="user-list">
             <thead>
             <tr>
                 <th></th>
                 <th>Name</th>
                 <th>Surname</th>
-                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -32,9 +39,29 @@
             </tr>
             </tbody>
         </table>
-        <form action="javascript:history.back()" class="actions">
-            <button class="btn">Get back</button>
-        </form>
+        <div id="navigation-buttons">
+            <div id="prev-button">
+                <form th:if="${page > 1}" th:action="@{/people/edit}" th:method="get">
+                    <input type="hidden" name="page" th:value="${page-1}" />
+                    <input type="hidden" name="size" th:value="${size}" />
+                    <input type="submit" value="Previous" class="btn" />
+                </form>
+                <div th:unless="${page > 1}" class="placeholder"></div>
+            </div>
+            <div id="home-button">
+                <form action="/spring-mvc-app">
+                    <button class="btn">Home</button>
+                </form>
+            </div>
+            <div id="next-button">
+                <form th:if="${page < pages}" th:action="@{/people/edit}" th:method="get">
+                    <input type="hidden" name="page" th:value="${page+1}" />
+                    <input type="hidden" name="size" th:value="${size}" />
+                    <input type="submit" value="Next" class="btn" />
+                </form>
+                <div th:unless="${page < pages}" class="placeholder"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
