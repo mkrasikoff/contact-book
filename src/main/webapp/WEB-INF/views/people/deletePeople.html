@@ -53,6 +53,11 @@
                     <button class="btn">Home</button>
                 </form>
             </div>
+            <div id="delete-button">
+                <form th:action="@{/people/deleteAll/confirm}" class="actions">
+                    <button type="submit" class="btn">Delete all</button>
+                </form>
+            </div>
             <div id="next-button">
                 <form th:if="${page < pages}" th:action="@{/people/delete}" th:method="get">
                     <input type="hidden" name="page" th:value="${page+1}" />

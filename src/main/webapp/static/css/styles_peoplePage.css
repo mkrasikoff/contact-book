@@ -61,7 +61,8 @@ input[type="text"] {
 
 #navigation-buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: center;
     width: 100%;
     max-width: 300px;
     margin-top: 20px;
@@ -74,6 +75,16 @@ input[type="text"] {
 #home-button {
     text-align: center;
     width: 100%;
+}
+
+#delete-button {
+    text-align: center;
+    width: 100%;
+}
+
+#delete-button button {
+    width: 110px;
+    display: inline-block;
 }
 
 .placeholder {
