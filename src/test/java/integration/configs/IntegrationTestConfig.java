@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import ru.mkrasikoff.springmvcapp.repos.JdbcPersonRepository;
-import ru.mkrasikoff.springmvcapp.services.GenerateService;
+import com.mkrasikoff.contactbook.repos.JdbcPersonRepository;
+import com.mkrasikoff.contactbook.services.GenerateService;
 
 import javax.sql.DataSource;
 

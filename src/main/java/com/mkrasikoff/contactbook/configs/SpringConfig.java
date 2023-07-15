@@ -1,4 +1,4 @@
-package ru.mkrasikoff.springmvcapp.configs;
+package com.mkrasikoff.contactbook.configs;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +16,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan("ru.mkrasikoff.springmvcapp")
+@ComponentScan("com.mkrasikoff.contactbook")
 @EnableWebMvc
 public class SpringConfig implements WebMvcConfigurer {
 

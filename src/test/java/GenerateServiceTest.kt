@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import ru.mkrasikoff.springmvcapp.services.GenerateService
+import com.mkrasikoff.contactbook.services.GenerateService
 
 class GenerateServiceTest {
 

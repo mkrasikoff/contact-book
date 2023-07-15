@@ -1,8 +1,8 @@
-package ru.mkrasikoff.springmvcapp.services;
+package com.mkrasikoff.contactbook.services;
 
+import com.mkrasikoff.contactbook.models.Person;
 import org.springframework.stereotype.Service;
-import ru.mkrasikoff.springmvcapp.models.Person;
-import ru.mkrasikoff.springmvcapp.repos.PersonRepository;
+import com.mkrasikoff.contactbook.repos.PersonRepository;
 import java.util.List;
 
 @Service

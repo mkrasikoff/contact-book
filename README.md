@@ -31,12 +31,12 @@ To set up and run the application, follow these steps:
 
 1. Clone the repository to your local machine.
     ```bash
-    git clone https://github.com/mkrasikoff/spring-mvc-app.git
+    git clone https://github.com/mkrasikoff/contact-book.git
     ```
 
 2. Change into the project directory.
     ```bash
-    cd spring-mvc-app
+    cd contact-book
     ```
 
 3. Build the Maven project to generate the WAR file.
@@ -49,7 +49,7 @@ To set up and run the application, follow these steps:
     docker-compose up --build -d
     ```
 
-5. Access the application by opening `http://localhost:8080/spring-mvc-app` in your web browser.
+5. Access the application by opening `http://localhost:8080/contact-book` in your web browser.
 
 ## Termination
 

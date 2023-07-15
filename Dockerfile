@@ -5,7 +5,7 @@ FROM tomcat:9.0.48-jdk11-openjdk-slim
 WORKDIR /usr/local/tomcat/webapps/
 
 # Copy the built WAR file from your target directory to the Tomcat webapps directory
-COPY /target/spring-mvc-app.war ./
+COPY /target/contact-book.war ./
 
 # Make port 8080 available
 EXPOSE 8080

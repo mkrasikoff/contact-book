@@ -1,4 +1,4 @@
-package ru.mkrasikoff.springmvcapp.configs;
+package com.mkrasikoff.contactbook.configs;
 
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;

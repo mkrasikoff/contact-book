@@ -1,8 +1,9 @@
-package ru.mkrasikoff.springmvcapp.services;
+package com.mkrasikoff.contactbook.services;
 
 import com.github.javafaker.Faker;
+import com.mkrasikoff.contactbook.models.Person;
 import org.springframework.stereotype.Component;
-import ru.mkrasikoff.springmvcapp.models.Person;
+
 import java.util.Random;
 
 @Component

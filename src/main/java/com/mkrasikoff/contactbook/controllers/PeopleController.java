@@ -1,12 +1,12 @@
-package ru.mkrasikoff.springmvcapp.controllers;
+package com.mkrasikoff.contactbook.controllers;
 
+import com.mkrasikoff.contactbook.models.Person;
+import com.mkrasikoff.contactbook.services.PersonService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.mkrasikoff.springmvcapp.exceptions.PersonNotFoundException;
-import ru.mkrasikoff.springmvcapp.models.Person;
-import ru.mkrasikoff.springmvcapp.services.PersonService;
+import com.mkrasikoff.contactbook.exceptions.PersonNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 

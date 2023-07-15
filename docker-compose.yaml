@@ -19,10 +19,10 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - spring-mvc-network
+      - contact-book-network
 
-  spring-mvc-app:
-    image: spring-mvc-app:latest
+  contact-book:
+    image: contact-book:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -37,10 +37,10 @@ services:
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     networks:
-      - spring-mvc-network
+      - contact-book-network
 
 networks:
-  spring-mvc-network:
+  contact-book-network:
     driver: bridge
 
 volumes:

@@ -1,3 +1,3 @@
-package ru.mkrasikoff.springmvcapp.exceptions
+package com.mkrasikoff.contactbook.exceptions
 
 class PersonAlreadyExistsException(message: String): RuntimeException(message)

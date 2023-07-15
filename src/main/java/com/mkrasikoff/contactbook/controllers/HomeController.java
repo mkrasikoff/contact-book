@@ -1,4 +1,4 @@
-package ru.mkrasikoff.springmvcapp.controllers;
+package com.mkrasikoff.contactbook.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

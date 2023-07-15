@@ -1,13 +1,14 @@
-package ru.mkrasikoff.springmvcapp.repos;
+package com.mkrasikoff.contactbook.repos;
 
+import com.mkrasikoff.contactbook.models.Person;
+import com.mkrasikoff.contactbook.services.GenerateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import ru.mkrasikoff.springmvcapp.exceptions.PersonAlreadyExistsException;
-import ru.mkrasikoff.springmvcapp.exceptions.PersonNotFoundException;
-import ru.mkrasikoff.springmvcapp.models.Person;
-import ru.mkrasikoff.springmvcapp.services.GenerateService;
+import com.mkrasikoff.contactbook.exceptions.PersonAlreadyExistsException;
+import com.mkrasikoff.contactbook.exceptions.PersonNotFoundException;
+
 import java.util.List;
 
 @Repository

@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import ru.mkrasikoff.springmvcapp.exceptions.PersonNotFoundException
-import ru.mkrasikoff.springmvcapp.models.Person
-import ru.mkrasikoff.springmvcapp.repos.JdbcPersonRepository
+import com.mkrasikoff.contactbook.exceptions.PersonNotFoundException
+import com.mkrasikoff.contactbook.models.Person
+import com.mkrasikoff.contactbook.repos.JdbcPersonRepository
 
 @ExtendWith(SpringExtension::class)
 @ContextConfiguration(classes = [IntegrationTestConfig::class])

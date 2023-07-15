@@ -1,4 +1,4 @@
-package ru.mkrasikoff.springmvcapp.models
+package com.mkrasikoff.contactbook.models
 
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotEmpty

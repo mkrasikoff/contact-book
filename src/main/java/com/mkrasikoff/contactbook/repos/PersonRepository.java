@@ -1,6 +1,7 @@
-package ru.mkrasikoff.springmvcapp.repos;
+package com.mkrasikoff.contactbook.repos;
 
-import ru.mkrasikoff.springmvcapp.models.Person;
+import com.mkrasikoff.contactbook.models.Person;
+
 import java.util.List;
 
 public interface PersonRepository {
