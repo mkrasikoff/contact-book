@@ -2,18 +2,22 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Confirm Delete All</title>
-    <link rel="stylesheet" th:href="@{/static/css/styles.css}">
+    <title>Confirm action</title>
+    <link rel="icon" type="image/png" th:href="@{/static/png/app_icon.png}">
+    <link rel="stylesheet" th:href="@{/static/css/styles_deletePeopleConfirmPage.css}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap">
 </head>
 <body>
-    <h3>Are you sure you want to delete ALL users?</h3>
-    <div class="content">
-        <form th:method="DELETE" th:action="@{/people/deleteAll}">
-            <input type="submit" value="I want to delete all users" class="btn danger"/>
-        </form>
-        <form action="javascript:history.back()" class="actions">
-            <button class="btn">Get back</button>
-        </form>
+    <div class="card">
+        <h3>Are you sure you want to delete ALL users?</h3>
+        <div class="content">
+            <form th:method="DELETE" th:action="@{/people/deleteAll}">
+                <input type="submit" value="I want to delete all users" class="btn danger"/>
+            </form>
+            <form action="javascript:history.back()" class="actions">
+                <button class="btn">Get back</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
