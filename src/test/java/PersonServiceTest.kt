@@ -138,14 +138,15 @@ class PersonServiceTest {
     fun showPeoplePage_peopleExist_peopleReturned() {
         val page = 1
         val size = 10
+        val sort = "id"
         every {
-            personRepository.findSpecificPeoplePage(page, size)
+            personRepository.findSpecificPeoplePage(page, size, sort)
         } returns PEOPLE
 
-        val foundPeople = personService.showPeoplePage(page, size)
+        val foundPeople = personService.showPeoplePage(page, size, sort)
 
         verify {
-            personRepository.findSpecificPeoplePage(page, size)
+            personRepository.findSpecificPeoplePage(page, size, sort)
         }
         assertEquals(PEOPLE, foundPeople)
     }
@@ -154,16 +155,35 @@ class PersonServiceTest {
     fun showPeoplePage_peopleDoesNotExist_emptyListReturned() {
         val page = 1
         val size = 10
+        val sort = "id"
         every {
-            personRepository.findSpecificPeoplePage(page, size)
+            personRepository.findSpecificPeoplePage(page, size, sort)
         } returns listOf()
 
-        val foundPeople = personService.showPeoplePage(page, size)
+        val foundPeople = personService.showPeoplePage(page, size, sort)
 
         verify {
-            personRepository.findSpecificPeoplePage(page, size)
+            personRepository.findSpecificPeoplePage(page, size, sort)
         }
         assertEquals(listOf<Person>(), foundPeople)
+    }
+
+    @Test
+    fun showPeoplePage_sortedByName_peopleReturnedInCorrectOrder() {
+        val page = 1
+        val size = 10
+        val sort = "name"
+        val sortedPeople = PEOPLE.sortedBy { it.name }
+        every {
+            personRepository.findSpecificPeoplePage(page, size, sort)
+        } returns sortedPeople
+
+        val foundPeople = personService.showPeoplePage(page, size, sort)
+
+        verify {
+            personRepository.findSpecificPeoplePage(page, size, sort)
+        }
+        assertEquals(sortedPeople, foundPeople)
     }
 
     @Test

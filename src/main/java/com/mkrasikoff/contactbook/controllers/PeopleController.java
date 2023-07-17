@@ -29,14 +29,16 @@ public class PeopleController {
      *
      * @param page An integer specifying the page number. Defaults to 1 if not provided.
      * @param size An integer specifying the number of people to display per page. Defaults to 10 if not provided.
+     * @param sort A string specifying the attribute by which to sort people. Defaults to 'id' if not provided.
      * @param model The Model object to bind data to the view.
      * @return The view to display.
      */
     @GetMapping
     public String getPeople(@RequestParam(defaultValue = "1") int page,
                             @RequestParam(defaultValue = "10") int size,
+                            @RequestParam(defaultValue = "id") String sort,
                             Model model) {
-        List<Person> people = personService.showPeoplePage(page, size);
+        List<Person> people = personService.showPeoplePage(page, size, sort);
         model.addAttribute("people", people);
 
         int count = personService.countPeople();
@@ -44,6 +46,7 @@ public class PeopleController {
 
         model.addAttribute("pages", pages);
         model.addAttribute("page", page);
+        model.addAttribute("sort", sort);
 
         return "people/showPeople";
     }
@@ -103,14 +106,16 @@ public class PeopleController {
      *
      * @param page An integer specifying the page number. Defaults to 1 if not provided.
      * @param size An integer specifying the number of people to display per page. Defaults to 10 if not provided.
+     * @param sort A string specifying the attribute by which to sort people. Defaults to 'id' if not provided.
      * @param model The Model object to bind data to the view.
      * @return The view to display.
      */
     @GetMapping("/edit")
     public String editAll(@RequestParam(defaultValue = "1") int page,
                           @RequestParam(defaultValue = "10") int size,
+                          @RequestParam(defaultValue = "id") String sort,
                           Model model) {
-        List<Person> people = personService.showPeoplePage(page, size);
+        List<Person> people = personService.showPeoplePage(page, size, sort);
         model.addAttribute("people", people);
 
         int count = personService.countPeople();
@@ -118,6 +123,7 @@ public class PeopleController {
 
         model.addAttribute("pages", pages);
         model.addAttribute("page", page);
+        model.addAttribute("sort", sort);
 
         return "people/editPeople";
     }
@@ -175,14 +181,16 @@ public class PeopleController {
      *
      * @param page An integer specifying the page number. Defaults to 1 if not provided.
      * @param size An integer specifying the number of people to display per page. Defaults to 10 if not provided.
+     * @param sort A string specifying the attribute by which to sort people. Defaults to 'id' if not provided.
      * @param model The Model object to bind data to the view.
      * @return The view to display.
      */
     @GetMapping("/delete")
     public String getDeletablePeople(@RequestParam(defaultValue = "1") int page,
                                      @RequestParam(defaultValue = "10") int size,
+                                     @RequestParam(defaultValue = "id") String sort,
                                      Model model) {
-        List<Person> people = personService.showPeoplePage(page, size);
+        List<Person> people = personService.showPeoplePage(page, size, sort);
         model.addAttribute("people", people);
 
         int count = personService.countPeople();
@@ -190,6 +198,7 @@ public class PeopleController {
 
         model.addAttribute("pages", pages);
         model.addAttribute("page", page);
+        model.addAttribute("sort", sort);
 
         return "people/deletePeople";
     }

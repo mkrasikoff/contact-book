@@ -18,9 +18,9 @@
         <table class="user-list">
             <thead>
             <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Surname</th>
+                <th><a th:href="@{/people(sort='logoId')}">Logo</a></th>
+                <th><a th:href="@{/people(sort='name')}">Name</a></th>
+                <th><a th:href="@{/people(sort='surname')}">Surname</a></th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -50,6 +50,7 @@
                 <form th:if="${page > 1}" th:action="@{/people}" th:method="get">
                     <input type="hidden" name="page" th:value="${page-1}" />
                     <input type="hidden" name="size" th:value="${size}" />
+                    <input type="hidden" name="sort" th:value="${sort}" />
                     <input type="submit" value="Previous" class="btn" />
                 </form>
                 <div th:unless="${page > 1}" class="placeholder"></div>
@@ -63,11 +64,13 @@
                 <form th:if="${page < pages}" th:action="@{/people}" th:method="get">
                     <input type="hidden" name="page" th:value="${page+1}" />
                     <input type="hidden" name="size" th:value="${size}" />
+                    <input type="hidden" name="sort" th:value="${sort}" />
                     <input type="submit" value="Next" class="btn" />
                 </form>
                 <div th:unless="${page < pages}" class="placeholder"></div>
             </div>
         </div>
     </div>
+    <script th:src="@{/static/js/sort.js}"></script>
 </body>
 </html>

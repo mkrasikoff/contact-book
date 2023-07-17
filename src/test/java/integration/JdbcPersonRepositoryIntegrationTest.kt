@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import com.mkrasikoff.contactbook.exceptions.PersonNotFoundException
+import com.mkrasikoff.contactbook.exceptions.InvalidSortParameterException
 import com.mkrasikoff.contactbook.models.Person
 import com.mkrasikoff.contactbook.repos.JdbcPersonRepository
 
@@ -81,8 +82,8 @@ class JdbcPersonRepositoryIntegrationTest {
             Person(id = it, name = "Person$it", surname = "Surname$it", email = "person$it@email.com", logoId = it).apply { insertPerson(this) }
         }
 
-        val page1 = personRepository.findSpecificPeoplePage(1, 10)
-        val page2 = personRepository.findSpecificPeoplePage(2, 10)
+        val page1 = personRepository.findSpecificPeoplePage(1, 10, "id")
+        val page2 = personRepository.findSpecificPeoplePage(2, 10, "id")
 
         assertAll("Pagination",
             Executable { assertEquals(10, page1.size, "Page 1 should have 10 people") },
@@ -92,6 +93,35 @@ class JdbcPersonRepositoryIntegrationTest {
                 assertTrue(insertedPeople.all { person -> allReturnedPeople.any { it.id == person.id } }, "All inserted people should be returned across the two pages")
             }
         )
+    }
+
+    @Test
+    fun findSpecificPeoplePage_sortByDifferentFields_returnsCorrectlySortedResults() {
+        jdbcTemplate.update(QUERY_DELETE_PEOPLE)
+        val insertedPeople = (1..12).map {
+            Person(id = it, name = "Person$it", surname = "Surname$it", email = "person$it@email.com", logoId = it).apply { insertPerson(this) }
+        }
+
+        val pageSortedById = personRepository.findSpecificPeoplePage(1, 12, "id")
+        val pageSortedByName = personRepository.findSpecificPeoplePage(1, 12, "name")
+        val pageSortedBySurname = personRepository.findSpecificPeoplePage(1, 12, "surname")
+        val pageSortedByLogoId = personRepository.findSpecificPeoplePage(1, 12, "logoId")
+
+        assertAll("Sorting",
+            Executable { assertEquals(insertedPeople.sortedBy { it.id }, pageSortedById, "Page should be sorted by id") },
+            Executable { assertEquals(insertedPeople.sortedBy { it.name }, pageSortedByName, "Page should be sorted by name") },
+            Executable { assertEquals(insertedPeople.sortedBy { it.surname }, pageSortedBySurname, "Page should be sorted by surname") },
+            Executable { assertEquals(insertedPeople.sortedBy { it.logoId }, pageSortedByLogoId, "Page should be sorted by logoId") }
+        )
+    }
+
+    @Test
+    fun findSpecificPeoplePage_givenInvalidSortParameter_throwsInvalidSortParameterException() {
+        val exception = assertThrows(InvalidSortParameterException::class.java) {
+            personRepository.findSpecificPeoplePage(1, 10, "invalidSortParameter")
+        }
+
+        assertEquals("Invalid sort parameter: invalidSortParameter", exception.message)
     }
 
     @Test

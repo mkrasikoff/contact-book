@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import com.mkrasikoff.contactbook.exceptions.PersonAlreadyExistsException;
 import com.mkrasikoff.contactbook.exceptions.PersonNotFoundException;
-
+import com.mkrasikoff.contactbook.exceptions.InvalidSortParameterException;
 import java.util.List;
 
 @Repository
@@ -53,9 +53,12 @@ public class JdbcPersonRepository implements PersonRepository {
     }
 
     @Override
-    public List<Person> findSpecificPeoplePage(int page, int size) {
+    public List<Person> findSpecificPeoplePage(int page, int size, String sort) {
+        String preparedSort = prepareSortParameter(sort);
+        String searchQuery = QUERY_SHOW_PEOPLE_LIMIT.replace("id", preparedSort);
+
         int start = (page - 1) * size;
-        return jdbcTemplate.query(QUERY_SHOW_PEOPLE_LIMIT, new BeanPropertyRowMapper<>(Person.class), start, size);
+        return jdbcTemplate.query(searchQuery, new BeanPropertyRowMapper<>(Person.class), start, size);
     }
 
     @Override
@@ -114,5 +117,13 @@ public class JdbcPersonRepository implements PersonRepository {
     public List<Person> search(String query) {
         String searchQuery = "%" + query + "%";
         return jdbcTemplate.query(QUERY_SEARCH_PERSON, new BeanPropertyRowMapper<>(Person.class), searchQuery);
+    }
+
+    private String prepareSortParameter(String sort) {
+        if (sort.equals("id") || sort.equals("name") || sort.equals("surname") || sort.equals("logoId")) {
+            return sort;
+        } else {
+            throw new InvalidSortParameterException("Invalid sort parameter: " + sort);
+        }
     }
 }

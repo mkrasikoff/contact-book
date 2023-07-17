@@ -7,7 +7,7 @@ import java.util.List;
 public interface PersonRepository {
 
     List<Person> findAll();
-    List<Person> findSpecificPeoplePage(int page, int size);
+    List<Person> findSpecificPeoplePage(int page, int size, String sort);
     int count();
     Person findById(int id);
     void save(Person person);
