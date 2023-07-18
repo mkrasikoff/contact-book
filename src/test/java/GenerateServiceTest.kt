@@ -1,3 +1,4 @@
+import com.mkrasikoff.contactbook.models.Person
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -27,5 +28,15 @@ class GenerateServiceTest {
         assertFalse(person.surname!!.isEmpty(), "Surname is empty")
         assertFalse(person.email!!.isEmpty(), "Email is empty")
         assertTrue(person.logoId in 1..4, "Generated logoId is not within the expected range")
+    }
+
+    @Test
+    fun generateRandomPerson_emailContainsNameAndSurname() {
+        val person: Person = generateService.generateRandomPerson()
+        val nameInEmail = person.name!!.lowercase()
+        val surnameInEmail = person.surname!!.lowercase()
+
+        assertTrue(person.email!!.contains(nameInEmail), "Email does not contain the name")
+        assertTrue(person.email!!.contains(surnameInEmail), "Email does not contain the surname")
     }
 }
