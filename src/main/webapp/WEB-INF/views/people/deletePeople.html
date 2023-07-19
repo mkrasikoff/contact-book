@@ -19,9 +19,9 @@
         <table class="user-list">
             <thead>
             <tr>
-                <th><a th:href="@{/people(sort='logoId')}">Logo</a></th>
-                <th><a th:href="@{/people(sort='name')}">Name</a></th>
-                <th><a th:href="@{/people(sort='surname')}">Surname</a></th>
+                <th><a th:href="@{/people/delete(sort='logoId')}" th:classappend="${sort == 'logoId' ? 'sorting-column' : ''}">Logo <span class="sort-icon">&darr;</span></a></th>
+                <th><a th:href="@{/people/delete(sort='name')}" th:classappend="${sort == 'name' ? 'sorting-column' : ''}">Name <span class="sort-icon">&darr;</span></a></th>
+                <th><a th:href="@{/people/delete(sort='surname')}" th:classappend="${sort == 'surname' ? 'sorting-column' : ''}">Surname <span class="sort-icon">&darr;</span></a></th>
             </tr>
             </thead>
             <tbody>

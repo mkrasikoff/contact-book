@@ -90,3 +90,17 @@ input[type="text"] {
 .placeholder {
     min-width: 100px;
 }
+
+.sorting-column {
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+}
+
+.sort-icon {
+    display: none;
+}
+
+.sorting-column .sort-icon {
+    display: inline-block;
+}
