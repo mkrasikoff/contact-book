@@ -11,7 +11,7 @@ html, body {
 
 .card {
     max-width: 640px;
-    max-height: 90vh;
+    max-height: 92vh;
     background-color: #f4f5f7;
     padding: 20px;
     border-radius: 10px;
@@ -26,6 +26,15 @@ html, body {
 .user-list {
     width: 50%;
     margin: 0 auto;
+}
+
+.user-list th {
+    padding-bottom: 10px;
+}
+
+.user-list td {
+    text-align: center;
+    padding: 5px 0;
 }
 
 .user-list td {
@@ -103,4 +112,8 @@ input[type="text"] {
 
 .sorting-column .sort-icon {
     display: inline-block;
+}
+
+.round-image {
+    border-radius: 50%;
 }
