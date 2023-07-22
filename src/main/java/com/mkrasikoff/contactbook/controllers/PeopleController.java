@@ -2,14 +2,26 @@ package com.mkrasikoff.contactbook.controllers;
 
 import com.mkrasikoff.contactbook.models.Person;
 import com.mkrasikoff.contactbook.services.PersonService;
+import com.mkrasikoff.contactbook.exceptions.PersonNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import com.mkrasikoff.contactbook.exceptions.PersonNotFoundException;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * The PeopleController is a controller class that handles HTTP requests related to the Person entity of the application.
+ * It includes CRUD (Create, Read, Update, Delete) operations and additional functions such as generating random people,
+ * searching people by a query, and deleting all people.
+ */
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
