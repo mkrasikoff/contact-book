@@ -5,6 +5,7 @@
 ## Overview
 
 The Contact Book is a small application using the Spring MVC framework. Designed as a practical exercise to explore the interaction of various technologies, the application uses a combination of Java, Kotlin, SQL, CSS, HTML, JavaScript, Spring 5.3.10, MySQL databases, Docker and Tomcat to provide comprehensive user interaction.
+
 ## Features
 
 The application supports the following features:
@@ -14,6 +15,8 @@ The application supports the following features:
 3. Individual or bulk deletion of user profiles.
 4. Ability to modify user data.
 5. Access to individual user profiles via a comprehensive people list. For large user bases, a handy search bar enables swift profile search.
+6. Pagination support for the people list.
+7. Sorting people list by different fields like `name`, `surname`, `email`, `id`.
 
 ## Prerequisites
 
@@ -23,7 +26,6 @@ Before starting with the application, ensure you have the following tools instal
 2. [Kotlin](https://kotlinlang.org/docs/command-line.html)
 3. [Maven](https://maven.apache.org/download.cgi)
 4. [Docker](https://docs.docker.com/get-docker/)
-5. [Docker Compose](https://docs.docker.com/compose/install/)
 
 ## Getting Started
 
@@ -44,16 +46,26 @@ To set up and run the application, follow these steps:
     mvn clean install
     ```
 
-4. Build and run the Docker containers with Docker Compose.
+4. Build and run the Docker containers.
     ```bash
     docker-compose up --build -d
     ```
 
 5. Access the application by opening `http://localhost:8080/contact-book` in your web browser.
 
+## Testing
+
+The application comes with a suite of tests, which includes both unit and integration tests. The tests are written in Kotlin using JUnit 5 and the Mockito framework.
+
+To run the tests, use the following Maven command:
+
+```bash
+mvn test
+```
+
 ## Termination
 
-To halt the application and the associated database, execute the following command:
+To stop the application and the associated database, execute the following command:
 
 ```bash
 docker-compose down
