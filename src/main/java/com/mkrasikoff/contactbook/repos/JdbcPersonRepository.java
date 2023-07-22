@@ -53,9 +53,10 @@ public class JdbcPersonRepository implements PersonRepository {
     }
 
     @Override
-    public List<Person> findSpecificPeoplePage(int page, int size, String sort) {
+    public List<Person> findSpecificPeoplePage(int page, int size, String sort, boolean reverse) {
         String preparedSort = prepareSortParameter(sort);
-        String searchQuery = QUERY_SHOW_PEOPLE_LIMIT.replace("id", preparedSort);
+        String order = reverse ? " DESC" : " ASC";
+        String searchQuery = QUERY_SHOW_PEOPLE_LIMIT.replace("id", preparedSort + order);
 
         int start = (page - 1) * size;
         return jdbcTemplate.query(searchQuery, new BeanPropertyRowMapper<>(Person.class), start, size);

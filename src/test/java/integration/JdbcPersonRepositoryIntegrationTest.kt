@@ -82,8 +82,8 @@ class JdbcPersonRepositoryIntegrationTest {
             Person(id = it, name = "Person$it", surname = "Surname$it", email = "person$it@email.com", logoId = it).apply { insertPerson(this) }
         }
 
-        val page1 = personRepository.findSpecificPeoplePage(1, 10, "id")
-        val page2 = personRepository.findSpecificPeoplePage(2, 10, "id")
+        val page1 = personRepository.findSpecificPeoplePage(1, 10, "id", false)
+        val page2 = personRepository.findSpecificPeoplePage(2, 10, "id", false)
 
         assertAll("Pagination",
             Executable { assertEquals(10, page1.size, "Page 1 should have 10 people") },
@@ -102,10 +102,10 @@ class JdbcPersonRepositoryIntegrationTest {
             Person(id = it, name = "Person$it", surname = "Surname$it", email = "person$it@email.com", logoId = it).apply { insertPerson(this) }
         }
 
-        val pageSortedById = personRepository.findSpecificPeoplePage(1, 12, "id")
-        val pageSortedByName = personRepository.findSpecificPeoplePage(1, 12, "name")
-        val pageSortedBySurname = personRepository.findSpecificPeoplePage(1, 12, "surname")
-        val pageSortedByLogoId = personRepository.findSpecificPeoplePage(1, 12, "logoId")
+        val pageSortedById = personRepository.findSpecificPeoplePage(1, 12, "id", false)
+        val pageSortedByName = personRepository.findSpecificPeoplePage(1, 12, "name", false)
+        val pageSortedBySurname = personRepository.findSpecificPeoplePage(1, 12, "surname", false)
+        val pageSortedByLogoId = personRepository.findSpecificPeoplePage(1, 12, "logoId", false)
 
         assertAll("Sorting",
             Executable { assertEquals(insertedPeople.sortedBy { it.id }, pageSortedById, "Page should be sorted by id") },
@@ -118,10 +118,49 @@ class JdbcPersonRepositoryIntegrationTest {
     @Test
     fun findSpecificPeoplePage_givenInvalidSortParameter_throwsInvalidSortParameterException() {
         val exception = assertThrows(InvalidSortParameterException::class.java) {
-            personRepository.findSpecificPeoplePage(1, 10, "invalidSortParameter")
+            personRepository.findSpecificPeoplePage(1, 10, "invalidSortParameter", false)
         }
 
         assertEquals("Invalid sort parameter: invalidSortParameter", exception.message)
+    }
+
+    @Test
+    fun findSpecificPeoplePage_backOrdering_returnsCorrectBackOrderedResults() {
+        jdbcTemplate.update(QUERY_DELETE_PEOPLE)
+        val insertedPeople = (1..12).map {
+            Person(id = it, name = "Person$it", surname = "Surname$it", email = "person$it@email.com", logoId = it).apply { insertPerson(this) }
+        }
+
+        val pageSortedById = personRepository.findSpecificPeoplePage(1, 12, "id", true)
+        val pageSortedByName = personRepository.findSpecificPeoplePage(1, 12, "name", true)
+        val pageSortedBySurname = personRepository.findSpecificPeoplePage(1, 12, "surname", true)
+        val pageSortedByLogoId = personRepository.findSpecificPeoplePage(1, 12, "logoId", true)
+
+        assertAll("Sorting",
+            Executable { assertEquals(insertedPeople.sortedByDescending { it.id }, pageSortedById, "Page should be back ordered by id") },
+            Executable { assertEquals(insertedPeople.sortedByDescending { it.name }, pageSortedByName, "Page should be back ordered by name") },
+            Executable { assertEquals(insertedPeople.sortedByDescending { it.surname }, pageSortedBySurname, "Page should be back ordered by surname") },
+            Executable { assertEquals(insertedPeople.sortedByDescending { it.logoId }, pageSortedByLogoId, "Page should be back ordered by logoId") }
+        )
+    }
+
+    @Test
+    fun findSpecificPeoplePage_backOrderingEmptyDb_returnsEmptyList() {
+        jdbcTemplate.update(QUERY_DELETE_PEOPLE)
+
+        val page = personRepository.findSpecificPeoplePage(1, 5, "id", true)
+        assertTrue(page.isEmpty(), "Page should be empty as there are no people in the database")
+    }
+
+    @Test
+    fun findSpecificPeoplePage_backOrderingMixedCaseColumnName_returnsCorrectlyOrderedResults() {
+        jdbcTemplate.update(QUERY_DELETE_PEOPLE)
+        val insertedPeople = (1..12).map {
+            Person(id = it, name = "Person$it", surname = "Surname$it", email = "person$it@email.com", logoId = it).apply { insertPerson(this) }
+        }
+
+        val pageSortedByName = personRepository.findSpecificPeoplePage(1, 12, "name", true)
+        assertEquals(insertedPeople.sortedByDescending { it.name }, pageSortedByName, "Page should be back ordered by name, case insensitive")
     }
 
     @Test

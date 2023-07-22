@@ -30,6 +30,7 @@ public class PeopleController {
      * @param page An integer specifying the page number. Defaults to 1 if not provided.
      * @param size An integer specifying the number of people to display per page. Defaults to 10 if not provided.
      * @param sort A string specifying the attribute by which to sort people. Defaults to 'id' if not provided.
+     * @param reverse A boolean specifying the order of sorting (true for desc order, false for asc). Defaults to false.
      * @param model The Model object to bind data to the view.
      * @return The view to display.
      */
@@ -37,8 +38,9 @@ public class PeopleController {
     public String getPeople(@RequestParam(defaultValue = "1") int page,
                             @RequestParam(defaultValue = "10") int size,
                             @RequestParam(defaultValue = "id") String sort,
+                            @RequestParam(defaultValue = "false") boolean reverse,
                             Model model) {
-        List<Person> people = personService.showPeoplePage(page, size, sort);
+        List<Person> people = personService.showPeoplePage(page, size, sort, reverse);
         model.addAttribute("people", people);
 
         int count = personService.countPeople();
@@ -47,6 +49,7 @@ public class PeopleController {
         model.addAttribute("pages", pages);
         model.addAttribute("page", page);
         model.addAttribute("sort", sort);
+        model.addAttribute("reverse", reverse);
 
         return "people/showPeople";
     }
@@ -107,6 +110,7 @@ public class PeopleController {
      * @param page An integer specifying the page number. Defaults to 1 if not provided.
      * @param size An integer specifying the number of people to display per page. Defaults to 10 if not provided.
      * @param sort A string specifying the attribute by which to sort people. Defaults to 'id' if not provided.
+     * @param reverse A boolean specifying the order of sorting (true for desc order, false for asc). Defaults to false.
      * @param model The Model object to bind data to the view.
      * @return The view to display.
      */
@@ -114,8 +118,9 @@ public class PeopleController {
     public String editAll(@RequestParam(defaultValue = "1") int page,
                           @RequestParam(defaultValue = "10") int size,
                           @RequestParam(defaultValue = "id") String sort,
+                          @RequestParam(defaultValue = "false") boolean reverse,
                           Model model) {
-        List<Person> people = personService.showPeoplePage(page, size, sort);
+        List<Person> people = personService.showPeoplePage(page, size, sort, reverse);
         model.addAttribute("people", people);
 
         int count = personService.countPeople();
@@ -124,6 +129,7 @@ public class PeopleController {
         model.addAttribute("pages", pages);
         model.addAttribute("page", page);
         model.addAttribute("sort", sort);
+        model.addAttribute("reverse", reverse);
 
         return "people/editPeople";
     }
@@ -182,6 +188,7 @@ public class PeopleController {
      * @param page An integer specifying the page number. Defaults to 1 if not provided.
      * @param size An integer specifying the number of people to display per page. Defaults to 10 if not provided.
      * @param sort A string specifying the attribute by which to sort people. Defaults to 'id' if not provided.
+     * @param reverse A boolean specifying the order of sorting (true for desc order, false for asc). Defaults to false.
      * @param model The Model object to bind data to the view.
      * @return The view to display.
      */
@@ -189,8 +196,9 @@ public class PeopleController {
     public String getDeletablePeople(@RequestParam(defaultValue = "1") int page,
                                      @RequestParam(defaultValue = "10") int size,
                                      @RequestParam(defaultValue = "id") String sort,
+                                     @RequestParam(defaultValue = "false") boolean reverse,
                                      Model model) {
-        List<Person> people = personService.showPeoplePage(page, size, sort);
+        List<Person> people = personService.showPeoplePage(page, size, sort, reverse);
         model.addAttribute("people", people);
 
         int count = personService.countPeople();
@@ -199,6 +207,7 @@ public class PeopleController {
         model.addAttribute("pages", pages);
         model.addAttribute("page", page);
         model.addAttribute("sort", sort);
+        model.addAttribute("reverse", reverse);
 
         return "people/deletePeople";
     }

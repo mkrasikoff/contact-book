@@ -19,9 +19,27 @@
         <table class="user-list">
             <thead>
             <tr>
-                <th><a th:href="@{/people/edit(sort='logoId')}" th:classappend="${sort == 'logoId' ? 'sorting-column' : ''}">Logo <span class="sort-icon">&darr;</span></a></th>
-                <th><a th:href="@{/people/edit(sort='name')}" th:classappend="${sort == 'name' ? 'sorting-column' : ''}">Name <span class="sort-icon">&darr;</span></a></th>
-                <th><a th:href="@{/people/edit(sort='surname')}" th:classappend="${sort == 'surname' ? 'sorting-column' : ''}">Surname <span class="sort-icon">&darr;</span></a></th>
+                <th>
+                    <a th:href="@{/people/edit(sort='logoId', reverse=${sort=='logoId' ? !reverse : false})}" th:classappend="${sort == 'logoId' ? 'sorting-column' : ''}">
+                        Logo
+                        <span class="sort-icon" th:if="${sort=='logoId' && !reverse}">&#8595;</span>
+                        <span class="sort-icon" th:if="${sort=='logoId' && reverse}">&#8593;</span>
+                    </a>
+                </th>
+                <th>
+                    <a th:href="@{/people/edit(sort='name', reverse=${sort=='name' ? !reverse : false})}" th:classappend="${sort == 'name' ? 'sorting-column' : ''}">
+                        Name
+                        <span class="sort-icon" th:if="${sort=='name' && !reverse}">&#8595;</span>
+                        <span class="sort-icon" th:if="${sort=='name' && reverse}">&#8593;</span>
+                    </a>
+                </th>
+                <th>
+                    <a th:href="@{/people/edit(sort='surname', reverse=${sort=='surname' ? !reverse : false})}" th:classappend="${sort == 'surname' ? 'sorting-column' : ''}">
+                        Surname
+                        <span class="sort-icon" th:if="${sort=='surname' && !reverse}">&#8595;</span>
+                        <span class="sort-icon" th:if="${sort=='surname' && reverse}">&#8593;</span>
+                    </a>
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -45,6 +63,7 @@
                     <input type="hidden" name="page" th:value="${page-1}" />
                     <input type="hidden" name="size" th:value="${size}" />
                     <input type="hidden" name="sort" th:value="${sort}" />
+                    <input type="hidden" name="reverse" th:value="${reverse}" />
                     <input type="submit" value="Previous" class="btn" />
                 </form>
                 <div th:unless="${page > 1}" class="placeholder"></div>
@@ -59,6 +78,7 @@
                     <input type="hidden" name="page" th:value="${page+1}" />
                     <input type="hidden" name="size" th:value="${size}" />
                     <input type="hidden" name="sort" th:value="${sort}" />
+                    <input type="hidden" name="reverse" th:value="${reverse}" />
                     <input type="submit" value="Next" class="btn" />
                 </form>
                 <div th:unless="${page < pages}" class="placeholder"></div>

@@ -20,8 +20,8 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public List<Person> showPeoplePage(int page, int size, String sort) {
-        return personRepository.findSpecificPeoplePage(page, size, sort);
+    public List<Person> showPeoplePage(int page, int size, String sort, boolean reverse) {
+        return personRepository.findSpecificPeoplePage(page, size, sort, reverse);
     }
 
     public int countPeople() {

@@ -4,6 +4,7 @@ import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import com.mkrasikoff.contactbook.exceptions.InvalidSortParameterException
 import com.mkrasikoff.contactbook.exceptions.PersonAlreadyExistsException
 import com.mkrasikoff.contactbook.exceptions.PersonNotFoundException
 import com.mkrasikoff.contactbook.models.Person
@@ -139,14 +140,15 @@ class PersonServiceTest {
         val page = 1
         val size = 10
         val sort = "id"
+        val reverse = false
         every {
-            personRepository.findSpecificPeoplePage(page, size, sort)
+            personRepository.findSpecificPeoplePage(page, size, sort, reverse)
         } returns PEOPLE
 
-        val foundPeople = personService.showPeoplePage(page, size, sort)
+        val foundPeople = personService.showPeoplePage(page, size, sort, reverse)
 
         verify {
-            personRepository.findSpecificPeoplePage(page, size, sort)
+            personRepository.findSpecificPeoplePage(page, size, sort, reverse)
         }
         assertEquals(PEOPLE, foundPeople)
     }
@@ -156,14 +158,15 @@ class PersonServiceTest {
         val page = 1
         val size = 10
         val sort = "id"
+        val reverse = false
         every {
-            personRepository.findSpecificPeoplePage(page, size, sort)
+            personRepository.findSpecificPeoplePage(page, size, sort, reverse)
         } returns listOf()
 
-        val foundPeople = personService.showPeoplePage(page, size, sort)
+        val foundPeople = personService.showPeoplePage(page, size, sort, reverse)
 
         verify {
-            personRepository.findSpecificPeoplePage(page, size, sort)
+            personRepository.findSpecificPeoplePage(page, size, sort, reverse)
         }
         assertEquals(listOf<Person>(), foundPeople)
     }
@@ -173,17 +176,90 @@ class PersonServiceTest {
         val page = 1
         val size = 10
         val sort = "name"
+        val reverse = false
         val sortedPeople = PEOPLE.sortedBy { it.name }
         every {
-            personRepository.findSpecificPeoplePage(page, size, sort)
+            personRepository.findSpecificPeoplePage(page, size, sort, reverse)
         } returns sortedPeople
 
-        val foundPeople = personService.showPeoplePage(page, size, sort)
+        val foundPeople = personService.showPeoplePage(page, size, sort, reverse)
 
         verify {
-            personRepository.findSpecificPeoplePage(page, size, sort)
+            personRepository.findSpecificPeoplePage(page, size, sort, reverse)
         }
         assertEquals(sortedPeople, foundPeople)
+    }
+
+    @Test
+    fun showPeoplePage_sortedByNameBackwards_peopleReturnedInCorrectOrder() {
+        val page = 1
+        val size = 10
+        val sort = "name"
+        val reverse = true
+        val sortedPeople = PEOPLE.sortedByDescending { it.name }
+        every {
+            personRepository.findSpecificPeoplePage(page, size, sort, reverse)
+        } returns sortedPeople
+
+        val foundPeople = personService.showPeoplePage(page, size, sort, reverse)
+
+        verify {
+            personRepository.findSpecificPeoplePage(page, size, sort, reverse)
+        }
+        assertEquals(sortedPeople, foundPeople)
+    }
+
+    @Test
+    fun showPeoplePage_sortedBySurname_peopleReturnedInCorrectOrder() {
+        val page = 1
+        val size = 10
+        val sort = "surname"
+        val reverse = false
+        val sortedPeople = PEOPLE.sortedBy { it.surname }
+        every {
+            personRepository.findSpecificPeoplePage(page, size, sort, reverse)
+        } returns sortedPeople
+
+        val foundPeople = personService.showPeoplePage(page, size, sort, reverse)
+
+        verify {
+            personRepository.findSpecificPeoplePage(page, size, sort, reverse)
+        }
+        assertEquals(sortedPeople, foundPeople)
+    }
+
+    @Test
+    fun showPeoplePage_sortedBySurnameBackwards_peopleReturnedInCorrectOrder() {
+        val page = 1
+        val size = 10
+        val sort = "surname"
+        val reverse = true
+        val sortedPeople = PEOPLE.sortedByDescending { it.surname }
+        every {
+            personRepository.findSpecificPeoplePage(page, size, sort, reverse)
+        } returns sortedPeople
+
+        val foundPeople = personService.showPeoplePage(page, size, sort, reverse)
+
+        verify {
+            personRepository.findSpecificPeoplePage(page, size, sort, reverse)
+        }
+        assertEquals(sortedPeople, foundPeople)
+    }
+
+    @Test
+    fun showPeoplePage_invalidSortParameter_exceptionThrown() {
+        val page = 1
+        val size = 10
+        val sort = "invalidSortParameter"
+        val reverse = false
+        every {
+            personRepository.findSpecificPeoplePage(page, size, sort, reverse)
+        } throws InvalidSortParameterException(ERROR_MESSAGE)
+
+        assertThrows<InvalidSortParameterException> {
+            personService.showPeoplePage(page, size, sort, reverse)
+        }
     }
 
     @Test
