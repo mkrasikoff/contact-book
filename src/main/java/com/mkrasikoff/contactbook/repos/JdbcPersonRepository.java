@@ -11,6 +11,9 @@ import com.mkrasikoff.contactbook.exceptions.PersonNotFoundException;
 import com.mkrasikoff.contactbook.exceptions.InvalidSortParameterException;
 import java.util.List;
 
+/**
+ * This repository provides methods to interact with the 'person' table in the database.
+ */
 @Repository
 public class JdbcPersonRepository implements PersonRepository {
 
@@ -33,6 +36,14 @@ public class JdbcPersonRepository implements PersonRepository {
     private JdbcTemplate jdbcTemplate;
     private GenerateService generateService;
 
+    /**
+     * Constructs the JdbcPersonRepository.
+     * If the 'person' table does not exist in the database, it is created.
+     * If the 'person' table is empty, 10 random Person objects are inserted.
+     *
+     * @param jdbcTemplate the JdbcTemplate to interact with the database
+     * @param generateService the GenerateService to create random Person objects
+     */
     @Autowired
     public JdbcPersonRepository(JdbcTemplate jdbcTemplate, GenerateService generateService) {
         this.jdbcTemplate = jdbcTemplate;
@@ -47,11 +58,17 @@ public class JdbcPersonRepository implements PersonRepository {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Person> findAll() {
         return jdbcTemplate.query(QUERY_SHOW_PEOPLE_ALL, new BeanPropertyRowMapper<>(Person.class));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Person> findSpecificPeoplePage(int page, int size, String sort, boolean reverse) {
         String preparedSort = prepareSortParameter(sort);
@@ -62,11 +79,17 @@ public class JdbcPersonRepository implements PersonRepository {
         return jdbcTemplate.query(searchQuery, new BeanPropertyRowMapper<>(Person.class), start, size);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int count() {
         return jdbcTemplate.queryForObject(QUERY_COUNT_PEOPLE, Integer.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Person findById(int id) {
         List<Person> people = jdbcTemplate.query(QUERY_SHOW_PERSON, new BeanPropertyRowMapper<>(Person.class), id);
@@ -74,6 +97,9 @@ public class JdbcPersonRepository implements PersonRepository {
         return people.stream().findAny().orElseThrow(() -> new PersonNotFoundException("Person with id " + id + " not found."));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void save(Person person) {
         int id = person.getId();
@@ -90,6 +116,9 @@ public class JdbcPersonRepository implements PersonRepository {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(Person person, int id) {
         String name = person.getName();
@@ -102,6 +131,9 @@ public class JdbcPersonRepository implements PersonRepository {
         if(updatedRows == 0) throw new PersonNotFoundException("Person with id " + id + " not found.");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteById(int id) {
         int deletedRows = jdbcTemplate.update(QUERY_DELETE_PERSON, id);
@@ -109,17 +141,32 @@ public class JdbcPersonRepository implements PersonRepository {
         if(deletedRows == 0) throw new PersonNotFoundException("Person with id " + id + " not found.");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteAll() {
         jdbcTemplate.update(QUERY_DELETE_ALL_PEOPLE);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Person> search(String query) {
         String searchQuery = "%" + query + "%";
         return jdbcTemplate.query(QUERY_SEARCH_PERSON, new BeanPropertyRowMapper<>(Person.class), searchQuery);
     }
 
+    /**
+     * Prepares the sort parameter for the findSpecificPeoplePage method.
+     * The sort parameter should be 'id', 'name', 'surname', or 'logoId'.
+     * If the sort parameter is not one of these values, an InvalidSortParameterException is thrown.
+     *
+     * @param sort the sort parameter
+     * @return the prepared sort parameter
+     * @throws InvalidSortParameterException if the sort parameter is invalid
+     */
     private String prepareSortParameter(String sort) {
         if (sort.equals("id") || sort.equals("name") || sort.equals("surname") || sort.equals("logoId")) {
             return sort;
